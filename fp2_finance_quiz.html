@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FP試験-金融資産運用 〇×完全攻略（全120問）</title>
+    <style>
+        body {
+            font-family: "Helvetica Neue", Arial, sans-serif;
+            background-color: #f0f2f5;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+        }
+
+        /* メニュー画面 */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .menu-btn {
+            padding: 20px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            color: white;
+            transition: 0.2s;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: left;
+            position: relative;
+        }
+
+        .menu-btn:hover {
+            transform: translateY(-2px);
+            opacity: 0.95;
+        }
+
+        .menu-desc {
+            font-size: 0.85em;
+            font-weight: normal;
+            display: block;
+            margin-top: 5px;
+            opacity: 0.9;
+        }
+
+        .menu-badge {
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8em;
+        }
+
+        .btn-random {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+        }
+
+        .btn-all {
+            background: linear-gradient(135deg, #e67e22, #d35400);
+        }
+
+        .btn-weak {
+            background: linear-gradient(135deg, #9b59b6, #8e44ad);
+        }
+
+        /* クイズ画面 */
+        .status-bar {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            font-weight: bold;
+            color: #7f8c8d;
+            background: #ecf0f1;
+            padding: 10px;
+            border-radius: 8px;
+        }
+
+        .question-box {
+            font-size: 1.25em;
+            font-weight: bold;
+            margin: 30px 0;
+            min-height: 100px;
+            padding: 0 10px;
+        }
+
+        .source-tag {
+            display: inline-block;
+            background: #e0f7fa;
+            color: #006064;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.85em;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .options {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        .ans-btn {
+            padding: 15px 50px;
+            font-size: 1.5em;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            color: white;
+            font-weight: bold;
+            transition: 0.2s;
+            width: 120px;
+        }
+
+        .btn-o {
+            background-color: #27ae60;
+            box-shadow: 0 4px #1e8449;
+        }
+
+        .btn-x {
+            background-color: #c0392b;
+            box-shadow: 0 4px #922b21;
+        }
+
+        .ans-btn:active {
+            transform: translateY(4px);
+            box-shadow: none;
+        }
+
+        .result-area {
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 8px;
+            display: none;
+            animation: fadeIn 0.3s;
+        }
+
+        .correct-msg {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .incorrect-msg {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .explanation {
+            margin-top: 15px;
+            font-size: 1em;
+        }
+
+        .citation {
+            display: block;
+            margin-top: 10px;
+            font-size: 0.85em;
+            color: #555;
+            text-align: right;
+            font-style: italic;
+        }
+
+        .btn-next {
+            background-color: #34495e;
+            color: white;
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            cursor: pointer;
+            margin-top: 20px;
+            display: none;
+        }
+
+        /* 結果・設定 */
+        .final-score {
+            text-align: center;
+            display: none;
+        }
+
+        .score-number {
+            font-size: 4em;
+            color: #e67e22;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+
+        .history-control {
+            margin-top: 40px;
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+
+        .btn-reset {
+            background: #95a5a6;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8em;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>FP試験-金融資産運用<br> 〇×完全攻略（全120問）</h1>
+
+        <!-- スタート画面 -->
+        <div id="start-screen">
+            <p style="text-align:center; margin-bottom:20px; font-weight:bold;">コースを選択してください</p>
+            <div class="menu-grid">
+                <button class="menu-btn btn-random" onclick="startQuiz('random')">
+                    ランダムテスト
+                    <span class="menu-desc">全120問からランダムに30問出題</span>
+                </button>
+                <button class="menu-btn btn-all" onclick="startQuiz('conquest')">
+                    全問制覇コース
+                    <span class="menu-desc">未正解の問題から最大30問出題</span>
+                    <span class="menu-badge" id="badge-conquest">残120問</span>
+                </button>
+                <button class="menu-btn btn-weak" onclick="startQuiz('weak')">
+                    弱点克服コース
+                    <span class="menu-desc">間違えた問題を優先して最大30問出題</span>
+                    <span class="menu-badge" id="badge-weak">対象0問</span>
+                </button>
+            </div>
+            <div class="history-control">
+                <p id="history-status">進捗状況：読込中...</p>
+                <button class="btn-reset" onclick="resetHistory()">学習履歴をリセットする</button>
+            </div>
+        </div>
+
+        <!-- クイズ画面 -->
+        <div id="quiz-interface" style="display: none;">
+            <div class="status-bar">
+                <span id="mode-display">モード</span>
+                <span id="progress-text">残り: - 問</span>
+            </div>
+
+            <div class="source-tag" id="source-name">分野名</div>
+            <div class="question-box" id="question-text"></div>
+
+            <div class="options" id="options-area">
+                <button class="ans-btn btn-o" onclick="checkAnswer(true)">〇</button>
+                <button class="ans-btn btn-x" onclick="checkAnswer(false)">×</button>
+            </div>
+
+            <div class="result-area" id="result-feedback">
+                <h3 id="result-title"></h3>
+                <div id="result-explanation" class="explanation"></div>
+                <span class="citation" id="result-citation"></span>
+                <button class="btn-next" id="next-btn" onclick="nextQuestion()">次の問題へ</button>
+            </div>
+        </div>
+
+        <!-- 終了画面 -->
+        <div class="final-score" id="final-screen">
+            <h2>セッション終了</h2>
+            <p>今回の正解数</p>
+            <div class="score-number" id="final-score-display">0 / 0</div>
+            <p id="final-comment"></p>
+            <button class="menu-btn btn-random" style="width:100%; margin-top:20px; text-align:center;"
+                onclick="location.reload()">メニューに戻る</button>
+        </div>
+    </div>
+
+    <script>
+        // === 問題データ（全120問） ===
+        const questionPool = [
+            // --- SOURCE 1: 経済指標 (Questions 1-20) ---
+            { id: 101, source: "経済指標", q: "国内総生産（GDP）において、最も高い構成比を占める項目はどれか？", options: ["民間企業設備", "政府最終消費支出", "民間最終消費支出", "公的固定資本形成"], a: 2, note: "GDPの構成比では、民間最終消費支出（個人消費）が50%以上を占めています。", ref: "[1]" },
+            { id: 102, source: "経済指標", q: "景気判断や経済成長率を見る場合に重視されるGDPはどちらか？", options: ["名目GDP", "実質GDP", "生産面GDP", "分配面GDP"], a: 1, note: "物価変動の影響を取り除いた実質GDPが、景気判断においては重視されます。", ref: "[1]" },
+            { id: 103, source: "経済指標", q: "景気動向指数の「一致指数」に含まれる指標はどれか？", options: ["新規求人数", "有効求人倍率（除学卒）", "完全失業率", "消費者態度指数"], a: 1, note: "有効求人倍率は一致指数です。新規求人数は先行指数、完全失業率は遅行指数です。", ref: "[2]" },
+            { id: 104, source: "経済指標", q: "景気動向指数のCI（コンポジットインデックス）は何を判断するための指標か？", options: ["景気の転換点", "景気変動の大きさ（量感）", "景気の方向性", "将来の予測"], a: 1, note: "CIは景気変動の大きさ（量感）を測定する指標です。方向性はDIで判断します。", ref: "[3]" },
+            { id: 105, source: "経済指標", q: "日銀短観の業況判断DIが「プラス」であることは何を意味するか？", options: ["業況が良い企業が悪い企業より多い", "全企業が黒字である", "前年より利益が増加している", "設備投資が増加している"], a: 0, note: "業況判断DIは「良い」と答えた割合から「悪い」と答えた割合を引いたものです。", ref: "[3]" },
+            { id: 106, source: "経済指標", q: "消費者物価指数（CPI）に含まれない品目はどれか？", options: ["ガソリン", "生鮮食品", "土地・住宅", "電気代"], a: 2, note: "消費者物価指数には、土地や有価証券などは含まれません。", ref: "[4]" },
+            { id: 107, source: "経済指標", q: "企業物価指数（CGPI）の特徴として正しいものはどれか？", options: ["消費者物価指数より遅れて変動する", "消費者物価指数より変動が小さい", "為替相場の影響を受けやすい", "サービス価格のみを対象とする"], a: 2, note: "企業物価指数は輸入品も含むため、為替や原油価格の影響を受けやすく、消費者物価より先行して大きく変動する傾向があります。", ref: "[4]" },
+            { id: 108, source: "経済指標", q: "完全失業率の定義における「完全失業者」の条件に含まれないものは？", options: ["仕事がなくて少しも働かなかった", "仕事があればすぐ就くことができる", "求職活動をしている", "働く意欲がない"], a: 3, note: "完全失業者とは、職がなく、働く意欲があり、求職活動をしている人を指します。", ref: "[4]" },
+            { id: 109, source: "経済指標", q: "日銀が行う「買いオペレーション」の効果として適切なものは？", options: ["市場の資金量が減る", "市場金利が低下する", "金融引き締め効果がある", "国債を売却する"], a: 1, note: "買いオペは日銀が国債等を買い、市場に資金を供給するため、金利は低下します。", ref: "[5]" },
+            { id: 110, source: "経済指標", q: "一般的に、円高になった場合の金利の動きはどうなるか？", options: ["上昇する", "低下する", "変わらない", "乱高下する"], a: 1, note: "円高になると輸入物価が下がりデフレ圧力がかかるため、一般的に金利は低下します。", ref: "[6]" },
+            { id: 111, source: "経済指標", q: "景気が拡大している局面での一般的な市場の動きとして誤っているものは？", options: ["株価上昇", "金利上昇", "債券価格上昇", "物価上昇"], a: 2, note: "景気拡大時は金利が上昇するため、債券価格は下落するのが一般的です。", ref: "[6]" },
+            { id: 112, source: "経済指標", q: "預金準備率操作において、景気を抑制したい場合に行う措置は？", options: ["準備率の引き上げ", "準備率の引き下げ", "買いオペ", "国債の購入"], a: 0, note: "準備率を引き上げると、金融機関が日銀に預ける義務額が増え、市場に出回る資金が減るため、金融引き締め（景気抑制）になります。", ref: "[6]" },
+            { id: 113, source: "経済指標", q: "マネーストック統計を発表している機関はどこか？", options: ["内閣府", "財務省", "日本銀行", "経済産業省"], a: 2, note: "マネーストックは日本銀行が毎月発表しています。", ref: "[3]" },
+            { id: 114, source: "経済指標", q: "景気動向指数のDIが何％以上であれば景気拡大局面と判断されるか？", options: ["30%", "50%", "70%", "100%"], a: 1, note: "DIは50%を上回ると景気拡大、下回ると景気後退と判断されます。", ref: "[3]" },
+            { id: 115, source: "経済指標", q: "GDPの三面等価の原則に含まれない側面はどれか？", options: ["生産", "分配", "支出", "貯蓄"], a: 3, note: "三面等価の原則は、生産（付加価値）、分配（所得）、支出（需要）の3側面です。", ref: "[1]" },
+            { id: 116, source: "経済指標", q: "景気動向指数の「先行指数」の数はいくつか？", options: ["9系列", "10系列", "11系列", "30系列"], a: 2, note: "先行指数は11系列、一致指数は10系列、遅行指数は9系列です。", ref: "[2]" },
+            { id: 117, source: "経済指標", q: "一般的に、金利が上昇すると株価はどうなると考えられるか？", options: ["上昇する", "下落する", "影響を受けない", "ストップ高になる"], a: 1, note: "金利が上昇すると、企業の借入コスト増などで株の魅力が相対的に下がるため、株価は下落する傾向があります。", ref: "[6][7]" },
+            { id: 118, source: "経済指標", q: "有効求人倍率を発表している機関はどこか？", options: ["総務省", "厚生労働省", "内閣府", "日本銀行"], a: 1, note: "有効求人倍率は厚生労働省が発表します。", ref: "[4]" },
+            { id: 119, source: "経済指標", q: "短期金融市場のうち、金融機関のみが参加する市場を何と呼ぶか？", options: ["オープン市場", "インターバンク市場", "証券市場", "債券市場"], a: 1, note: "金融機関のみが参加するのはインターバンク市場（コール市場など）です。", ref: "[5]" },
+            { id: 120, source: "経済指標", q: "景気動向指数の「遅行指数」に含まれるものはどれか？", options: ["東証株価指数", "有効求人倍率", "消費者物価指数", "新設住宅着工床面積"], a: 2, note: "消費者物価指数や完全失業率は遅行指数に含まれます。", ref: "[2]" },
+
+            // --- SOURCE 2: 預貯金・投資信託 (Questions 21-40) ---
+            { id: 201, source: "預貯金・投信", q: "金利下降局面で有利とされる金利タイプはどれか？", options: ["変動金利", "固定金利", "短期金利", "政策金利"], a: 1, note: "金利が下がっていく局面では、高い金利で固定できる固定金利が有利です。", ref: "[8]" },
+            { id: 202, source: "預貯金・投信", q: "銀行の「決済用預金」の3条件に含まれないものは？", options: ["無利息", "要求払い", "決済サービス提供", "元本保証なし"], a: 3, note: "決済用預金の条件は「無利息」「要求払い」「決済サービス提供」で、全額保護の対象です。", ref: "[8][9]" },
+            { id: 203, source: "預貯金・投信", q: "ゆうちょ銀行の「定額貯金」の最長預入期間は何年か？", options: ["3年", "5年", "10年", "無期限"], a: 2, note: "定額貯金の最長預入期限は10年です。半年複利計算されます。", ref: "[10]" },
+            { id: 204, source: "預貯金・投信", q: "ゆうちょ銀行への預入限度額は、通常貯金と定期性貯金それぞれいくらか？", options: ["1,000万円", "1,300万円", "2,000万円", "制限なし"], a: 1, note: "それぞれ1,300万円、合計2,600万円が限度額です。", ref: "[11]" },
+            { id: 205, source: "預貯金・投信", q: "投資信託の運営において「運用の指図」を行うのはどの機関か？", options: ["販売会社", "受託会社", "委託会社", "投資顧問会社"], a: 2, note: "運用の指図を行うのは「委託会社（運用会社）」です。受託会社は資産の保管を行います。", ref: "[11]" },
+            { id: 206, source: "預貯金・投信", q: "いつでも購入・解約が可能な一般的な投資信託の形態はどれか？", options: ["単位型・クローズドエンド", "追加型・オープンエンド", "会社型・クローズドエンド", "公社債投信"], a: 1, note: "いつでも購入可能なのが「追加型」、いつでも換金請求可能なのが「オープンエンド型」です。", ref: "[12]" },
+            { id: 207, source: "預貯金・投信", q: "J-REIT（不動産投資信託）の特徴として正しいものは？", options: ["契約型投資信託である", "オープンエンド型である", "法人税が実質非課税になる要件がある", "元本保証がある"], a: 2, note: "J-REITは会社型・クローズドエンド型で、収益の90%超を分配すれば法人税がかかりません。", ref: "[11][13]" },
+            { id: 208, source: "預貯金・投信", q: "日経平均などの指数に連動する運用成果を目指す運用手法は？", options: ["アクティブ運用", "パッシブ運用", "バリュー投資", "グロース投資"], a: 1, note: "指数（ベンチマーク）への連動を目指すのはパッシブ運用（インデックス運用）です。", ref: "[14]" },
+            { id: 209, source: "預貯金・投信", q: "相場が「下落」している時に利益が出るように設計されたファンドは？", options: ["ブル型", "ベア型", "インデックス型", "バランス型"], a: 1, note: "ベア（弱気）型は相場下落時に基準価額が上昇するように設計されています。", ref: "[15]" },
+            { id: 210, source: "預貯金・投信", q: "投資信託の保有期間中、毎日信託財産から差し引かれるコストは？", options: ["販売手数料", "信託財産留保額", "信託報酬", "解約手数料"], a: 2, note: "運用管理費用である信託報酬は、保有期間中毎日差し引かれます。", ref: "[15]" },
+            { id: 211, source: "預貯金・投信", q: "MRF（マネー・リザーブ・ファンド）の特徴として誤っているものは？", options: ["証券総合口座の決済に使われる", "元本保証がある", "いつでも出し入れ可能", "公社債で運用される"], a: 1, note: "MRFは安全性が高いですが、投資信託であり元本保証はありません。", ref: "[13]" },
+            { id: 212, source: "預貯金・投信", q: "マクロ経済分析から入り、個別の銘柄を決めていく運用手法は？", options: ["ボトムアップアプローチ", "トップダウンアプローチ", "パッシブアプローチ", "マーケットアプローチ"], a: 1, note: "経済全体（マクロ）から詳細へ落とし込むのはトップダウンアプローチです。", ref: "[14]" },
+            { id: 213, source: "預貯金・投信", q: "PERやPBRを見て「割安」と判断される銘柄に投資する手法は？", options: ["グロース投資", "バリュー投資", "インデックス投資", "モメンタム投資"], a: 1, note: "割安株への投資はバリュー投資です。成長株への投資はグロース投資です。", ref: "[15]" },
+            { id: 214, source: "預貯金・投信", q: "投資信託のトータルリターン通知制度は、どれくらいの頻度で通知義務があるか？", options: ["毎月", "半年に1回", "年1回以上", "解約時のみ"], a: 2, note: "販売会社は年1回以上、トータルリターンを通知する必要があります。", ref: "[16]" },
+            { id: 215, source: "預貯金・投信", q: "ETF（上場投資信託）の特徴として正しいものは？", options: ["証券取引所でリアルタイムに売買できる", "非上場である", "販売手数料がかからない", "分配金が出ない"], a: 0, note: "ETFは上場しており、株式同様に市場価格でリアルタイムに取引可能です。", ref: "[13]" },
+            { id: 216, source: "預貯金・投信", q: "「公社債投資信託」の定義として正しいものは？", options: ["株式を一切組み入れない", "株式を30%まで組み入れ可能", "国債のみで運用する", "元本が保証されている"], a: 0, note: "株式を一切組み入れず、債券を中心に運用するものが公社債投資信託です。", ref: "[12]" },
+            { id: 217, source: "預貯金・投信", q: "投資信託の解約時に投資家が負担する費用（ペナルティ的要素）は？", options: ["信託報酬", "販売手数料", "信託財産留保額", "運用報告書作成費"], a: 2, note: "解約時に差し引かれ、ファンドに残されるお金を信託財産留保額といいます。", ref: "[15]" },
+            { id: 218, source: "預貯金・投信", q: "スーパー定期預金で「単利」と「半年複利」を選択できるのは預入期間が何年以上か？", options: ["1年", "2年", "3年", "5年"], a: 2, note: "3年以上の場合、個人は半年複利を選択可能です（3年未満は単利のみ）。", ref: "[10]" },
+            { id: 219, source: "預貯金・投信", q: "購入判断に必要な重要事項が記載され、購入前に交付義務がある書類は？", options: ["運用報告書", "交付目論見書", "請求目論見書", "約款"], a: 1, note: "購入前または同時に交付しなければならないのは「交付目論見書」です。", ref: "[16]" },
+            { id: 220, source: "預貯金・投信", q: "普通預金と同じように出し入れ自由だが、決済機能（振替等）がない預金は？", options: ["当座預金", "貯蓄預金", "通知預金", "定期預金"], a: 1, note: "貯蓄預金は出し入れ自由ですが、公共料金の引き落としなどの決済機能はありません。", ref: "[8]" },
+
+            // --- SOURCE 3: 債券投資 (Questions 41-60) ---
+            { id: 301, source: "債券投資", q: "債券の発行価格が額面金額（100円）を下回る発行を何というか？", options: ["パー発行", "オーバーパー発行", "アンダーパー発行", "ディスカウント発行"], a: 2, note: "100円未満での発行はアンダーパー発行といいます。", ref: "[17]" },
+            { id: 302, source: "債券投資", q: "一般的に、発行体の信用度（格付け）が低い債券の表面利率はどうなるか？", options: ["低くなる", "高くなる", "変わらない", "ゼロになる"], a: 1, note: "信用リスクが高い分、投資家を引きつけるために利率（クーポン）は高く設定されます。", ref: "[17]" },
+            { id: 303, source: "債券投資", q: "債券価格が上昇すると、利回りはどうなるか？", options: ["上昇する", "低下する", "変わらない", "変動しない"], a: 1, note: "債券価格と利回りは逆の動きをします。価格上昇＝利回り低下です。", ref: "[18]" },
+            { id: 304, source: "債券投資", q: "新発債を購入し、満期償還まで保有した場合の利回りは？", options: ["応募者利回り", "最終利回り", "所有期間利回り", "直接利回り"], a: 0, note: "発行時に購入して満期まで持つ場合は「応募者利回り」です。", ref: "[18]" },
+            { id: 305, source: "債券投資", q: "イールドカーブが「右肩上がり（順イールド）」の状態とは？", options: ["短期金利 > 長期金利", "短期金利 < 長期金利", "短期金利 = 長期金利", "金利がマイナス"], a: 1, note: "期間が長いほど利回りが高い（右肩上がり）状態が順イールドで、通常の状態です。", ref: "[19]" },
+            { id: 306, source: "債券投資", q: "債券のデュレーションが長いほど、金利変動に対する価格変動はどうなるか？", options: ["大きくなる", "小さくなる", "変わらない", "ゼロになる"], a: 0, note: "デュレーションが長い（残存期間が長い・利率が低い）ほど、金利変動による価格変動リスクは大きくなります。", ref: "[19]" },
+            { id: 307, source: "債券投資", q: "個人向け国債「変動10年」の金利が見直される頻度は？", options: ["毎月", "3ヶ月ごと", "半年ごと", "1年ごと"], a: 2, note: "個人向け国債はすべて半年ごとに利払いや金利見直し（変動型の場合）が行われます。", ref: "[20]" },
+            { id: 308, source: "債券投資", q: "個人向け国債の中途換金が可能になるのは発行からどのくらい経過後か？", options: ["半年", "1年", "2年", "3年"], a: 1, note: "発行から1年経過すれば中途換金可能です（直前2回分の利子相当額が引かれます）。", ref: "[20]" },
+            { id: 309, source: "債券投資", q: "一定の条件で株式に転換できる権利がついた債券を何というか？", options: ["仕組債", "劣後債", "転換社債型新株予約権付社債(CB)", "ワラント債"], a: 2, note: "CB（Convertible Bond）は株式に転換可能な債券です。", ref: "[21]" },
+            { id: 310, source: "債券投資", q: "投資適格債とされる格付けの基準は？", options: ["A以上", "BBB以上", "BB以上", "AAAのみ"], a: 1, note: "一般にBBB（トリプルB）格以上が投資適格債、BB以下は投機的格付（ジャンク債）とされます。", ref: "[22]" },
+            { id: 311, source: "債券投資", q: "債券の「直接利回り」の計算式に使わない要素はどれか？", options: ["表面利率", "購入価格", "償還差益", "100"], a: 2, note: "直接利回りは「表面利率 ÷ 購入価格 × 100」で計算し、償還差益（年限）を考慮しません。", ref: "[18]" },
+            { id: 312, source: "債券投資", q: "利子を受け取れない代わりに、額面より割り引いて発行される債券は？", options: ["利付債", "割引債（ゼロクーポン債）", "変動利付債", "劣後債"], a: 1, note: "割引債（ゼロクーポン債）は利払いがない代わりに安く発行されます。", ref: "[20]" },
+            { id: 313, source: "債券投資", q: "個人向け国債の下限金利（最低保証利率）は？", options: ["0.01%", "0.03%", "0.05%", "0.10%"], a: 2, note: "個人向け国債は0.05%の最低金利保証があります。", ref: "[20]" },
+            { id: 314, source: "債券投資", q: "長期金利の指標となる国債の満期は何年か？", options: ["5年", "10年", "20年", "30年"], a: 1, note: "新発10年国債の利回りが長期金利の代表的な指標となります。", ref: "[20]" },
+            { id: 315, source: "債券投資", q: "払込と利払いは円、償還は外貨で行われる債券を何というか？", options: ["デュアルカレンシー債", "リバース・デュアルカレンシー債", "サムライ債", "ショーグン債"], a: 0, note: "償還が異なる通貨（外貨）になるのがデュアルカレンシー債です。リバースはその逆（利払いが外貨）です。", ref: "[21][23]" },
+            { id: 316, source: "債券投資", q: "債券の発行体が破綻し、元本や利子が支払われないリスクを何というか？", options: ["流動性リスク", "価格変動リスク", "デフォルトリスク", "カントリーリスク"], a: 2, note: "デフォルトリスク（信用リスク）です。", ref: "[24]" },
+            { id: 317, source: "債券投資", q: "市場金利が上昇すると、保有している債券の価格はどうなるか？", options: ["上昇する", "下落する", "変わらない", "金利と同じ幅で上昇"], a: 1, note: "金利上昇＝債券価格下落です。新たに発行される高金利の債券に魅力が移るためです。", ref: "[24]" },
+            { id: 318, source: "債券投資", q: "既発債を時価で購入し、償還まで保有した場合の利回りは？", options: ["応募者利回り", "最終利回り", "所有期間利回り", "直接利回り"], a: 1, note: "途中購入・満期償還の場合は「最終利回り」です。", ref: "[18]" },
+            { id: 319, source: "債券投資", q: "個人向け国債「固定3年」の利率設定基準は？", options: ["基準金利 - 0.03%", "基準金利 - 0.05%", "基準金利 × 0.66", "基準金利そのまま"], a: 0, note: "固定3年は「基準金利 - 0.03%」、固定5年は「-0.05%」、変動10年は「×0.66」です。", ref: "[20]" },
+            { id: 320, source: "債券投資", q: "売りたくても買い手が少なくて売れない、あるいは不利な価格になるリスクは？", options: ["信用リスク", "流動性リスク", "金利リスク", "為替リスク"], a: 1, note: "取引量が少なく換金が困難になるリスクを流動性リスクといいます。", ref: "[24]" },
+
+            // --- SOURCE 4: 株式投資・外貨 (Questions 61-80) ---
+            { id: 401, source: "株式・外貨", q: "株式会社の株主が持つ「自益権」に含まれるものは？", options: ["議決権", "剰余金配当請求権", "帳簿閲覧権", "解散請求権"], a: 1, note: "自益権は経済的利益を受ける権利（配当請求権など）。議決権などは共益権です。", ref: "[25]" },
+            { id: 402, source: "株式・外貨", q: "東証の市場区分で、高い成長可能性を有する企業向けの市場は？", options: ["プライム市場", "スタンダード市場", "グロース市場", "マザーズ"], a: 2, note: "2022年の再編で、新興企業向けは「グロース市場」となりました。", ref: "[25]" },
+            { id: 403, source: "株式・外貨", q: "日経平均株価（日経225）の算出方法の特徴は？", options: ["全銘柄の時価総額加重平均", "代表225銘柄の修正平均", "全銘柄の単純平均", "ROEによる加重平均"], a: 1, note: "日経平均は225銘柄の株価の平均（値がさ株の影響を受けやすい）です。", ref: "[26]" },
+            { id: 404, source: "株式・外貨", q: "TOPIX（東証株価指数）が影響を受けやすいのはどんな銘柄か？", options: ["値がさ株（株価が高い株）", "時価総額が大きい株", "新興市場の株", "低位株"], a: 1, note: "TOPIXは時価総額加重平均型なので、時価総額の大きな銘柄の影響を受けやすいです。", ref: "[26]" },
+            { id: 405, source: "株式・外貨", q: "株式の注文において、価格を指定せず「いくらでもいいから買いたい」とする注文は？", options: ["指値注文", "成行注文", "逆指値注文", "期間指定注文"], a: 1, note: "価格を指定しない注文は「成行注文」です。約定優先度が高いです。", ref: "[27]" },
+            { id: 406, source: "株式・外貨", q: "株式取引の「受渡日」は約定日を含めて何営業日目か？", options: ["当日", "2営業日目", "3営業日目", "4営業日目"], a: 2, note: "約定日から起算して3営業日目に決済（受渡し）が行われます。", ref: "[28]" },
+            { id: 407, source: "株式・外貨", q: "信用取引において必要な委託保証金は、売買代金の少なくとも何％以上か？", options: ["10%", "20%", "30%", "50%"], a: 2, note: "信用取引には30%以上の委託保証金が必要です。", ref: "[28]" },
+            { id: 408, source: "株式・外貨", q: "制度信用取引の弁済期限（最長）は？", options: ["3ヶ月", "6ヶ月", "1年", "無期限"], a: 1, note: "制度信用取引は最長6ヶ月以内に決済する必要があります。", ref: "[28]" },
+            { id: 409, source: "株式・外貨", q: "PER（株価収益率）の計算式は？", options: ["株価 ÷ 1株当たり純利益(EPS)", "株価 ÷ 1株当たり純資産(BPS)", "配当金 ÷ 株価", "純利益 ÷ 自己資本"], a: 0, note: "PER = 株価 / EPS です。利益に対して株価が何倍かを示します。", ref: "[29]" },
+            { id: 410, source: "株式・外貨", q: "PBR（株価純資産倍率）が「1倍割れ」であることは何を意味するか？", options: ["株価が割高である", "株価が解散価値を下回っている", "倒産リスクが高い", "成長期待が高い"], a: 1, note: "PBR1倍は株価と解散価値が等しい状態。1倍割れは割安（解散価値以下）と判断されます。", ref: "[29]" },
+            { id: 411, source: "株式・外貨", q: "ROE（自己資本利益率）の計算式は？", options: ["当期純利益 ÷ 総資産", "当期純利益 ÷ 自己資本", "売上高 ÷ 自己資本", "営業利益 ÷ 総資産"], a: 1, note: "ROE = 当期純利益 / 自己資本 × 100 です。資本の効率性を示します。", ref: "[30]" },
+            { id: 412, source: "株式・外貨", q: "顧客が円を外貨に換える（円を売る）際に適用される為替レートは？", options: ["TTS", "TTB", "TTM", "スプレッド"], a: 0, note: "円を売る(Sell)のでTTS (Telegraphic Transfer Selling rate) です。", ref: "[30]" },
+            { id: 413, source: "株式・外貨", q: "配当性向を示す計算式は？", options: ["配当金総額 ÷ 当期純利益", "配当金 ÷ 株価", "純利益 ÷ 配当金", "自己資本 ÷ 配当金"], a: 0, note: "利益のうちどれだけ配当に回したかを示すのが配当性向です。", ref: "[30]" },
+            { id: 414, source: "株式・外貨", q: "JPX日経インデックス400の選定基準として重視される指標は？", options: ["時価総額のみ", "ROE（自己資本利益率）", "配当利回り", "株主優待の有無"], a: 1, note: "ROEなどの財務指標やガバナンスを重視して400銘柄を選定します。", ref: "[26]" },
+            { id: 415, source: "株式・外貨", q: "NISA口座で配当金を非課税にするために選択必須の受取方式は？", options: ["配当金領収証方式", "登録配当金受領口座方式", "株式数比例配分方式", "個別銘柄指定方式"], a: 2, note: "「株式数比例配分方式」を選択しないと、NISA口座でも配当金は課税されます。", ref: "[31][32]" },
+            { id: 416, source: "株式・外貨", q: "外貨預金において、預金保険制度は適用されるか？", options: ["全額適用される", "1000万円まで適用される", "適用されない", "金融機関による"], a: 2, note: "外貨預金は預金保険制度の対象外です。", ref: "[33][34]" },
+            { id: 417, source: "株式・外貨", q: "外貨建てMMFの為替差益の課税扱いは？", options: ["非課税", "総合課税", "20.315%の申告分離課税", "源泉徴収のみで終了"], a: 2, note: "外貨建てMMFの為替差益（譲渡益）は申告分離課税の対象です。", ref: "[33]" },
+            { id: 418, source: "株式・外貨", q: "信用取引で「空売り」ができることのメリットは？", options: ["配当金がもらえる", "株価下落局面でも利益を狙える", "手数料がかからない", "議決権が得られる"], a: 1, note: "持っていない株を借りて売る（空売り）ことで、下落時に買い戻して利益を得られます。", ref: "[28]" },
+            { id: 419, source: "株式・外貨", q: "「時間優先の原則」とは？", options: ["注文時間が早いものが優先される", "大口注文が優先される", "成行より指値が優先される", "機関投資家が優先される"], a: 0, note: "同じ価格の注文であれば、先に出された注文が優先して成立します。", ref: "[27]" },
+            { id: 420, source: "株式・外貨", q: "リバース・デュアルカレンシー債の仕組みは？", options: ["払込・償還が円、利払いが外貨", "すべて外貨", "払込・利払いが円、償還が外貨", "利払いなし"], a: 0, note: "元本（払込・償還）は円ですが、利払いのみ外貨で行われる債券です。", ref: "[23]" },
+
+            // --- SOURCE 5: 派生商品・ポートフォリオ (Questions 81-100) ---
+            { id: 501, source: "派生・PF", q: "先物取引において、売買の差額のみを授受して決済する方法を何というか？", options: ["現物決済", "差金決済", "受渡決済", "スワップ決済"], a: 1, note: "反対売買を行い、差額のみで決済することを差金決済といいます。", ref: "[35]" },
+            { id: 502, source: "派生・PF", q: "オプション取引において「買う権利」を何というか？", options: ["コールオプション", "プットオプション", "スワップ", "フューチャー"], a: 0, note: "買う権利はコール、売る権利はプットです。", ref: "[36]" },
+            { id: 503, source: "派生・PF", q: "コールオプションの「買い手」の損失は最大いくらか？", options: ["無限大", "権利行使価格", "プレミアム（オプション料）", "ゼロ"], a: 2, note: "オプションの買い手は権利放棄ができるため、損失は支払ったプレミアムに限定されます。", ref: "[36]" },
+            { id: 504, source: "派生・PF", q: "プットオプションの「売り手」の利益は最大いくらか？", options: ["無限大", "権利行使価格", "プレミアム（オプション料）", "ゼロ"], a: 2, note: "オプションの売り手は、買い手が権利放棄した際のプレミアムが利益の最大値です。", ref: "[36]" },
+            { id: 505, source: "派生・PF", q: "異なる通貨の元本と利息を交換する取引を何というか？", options: ["金利スワップ", "通貨スワップ", "クーポンスワップ", "デットエクイティスワップ"], a: 1, note: "異なる通貨間での交換は通貨スワップです。金利スワップは同一通貨での金利交換です。", ref: "[37]" },
+            { id: 506, source: "派生・PF", q: "FX（外国為替証拠金取引）のレバレッジは国内法で最大何倍に制限されているか？", options: ["10倍", "25倍", "50倍", "100倍"], a: 1, note: "個人顧客のレバレッジは最大25倍に制限されています。", ref: "[37]" },
+            { id: 507, source: "派生・PF", q: "「効率的市場仮説」に基づく考え方は？", options: ["市場平均に勝ち続けることはできない", "割安株を見つければ勝てる", "テクニカル分析が有効", "情報は遅れて価格に反映される"], a: 0, note: "すべての情報は即座に価格に織り込まれるため、市場平均（インデックス）を継続して上回ることはできないとする仮説です。", ref: "[38]" },
+            { id: 508, source: "派生・PF", q: "2つの資産の相関係数が「-1」であるとき、分散投資の効果はどうなるか？", options: ["効果はない", "リスク低減効果が最大になる", "リターンがゼロになる", "リスクが増大する"], a: 1, note: "逆の動きをする（-1）資産を組み合わせると、リスク低減効果が最大になります。", ref: "[39]" },
+            { id: 509, source: "派生・PF", q: "シャープレシオの計算式は？", options: ["(収益率 - 無リスク資産利子率) ÷ 標準偏差", "収益率 ÷ 標準偏差", "(収益率 - 無リスク資産利子率) ÷ β値", "収益率 × 標準偏差"], a: 0, note: "リスク1単位あたりの超過リターンを測る指標です。分母は標準偏差（リスク）です。", ref: "[40]" },
+            { id: 510, source: "派生・PF", q: "ポートフォリオのリスクを表す統計的指標は？", options: ["相関係数", "標準偏差（分散）", "中央値", "共分散"], a: 1, note: "収益率のばらつき（リスク）は標準偏差や分散で表されます。", ref: "[41]" },
+            { id: 511, source: "派生・PF", q: "現在価値（PV）を求める際に使われる利率を何というか？", options: ["表面利率", "応募者利回り", "割引率", "クーポンレート"], a: 2, note: "将来の価値を現在価値に直す際に割り引くため、割引率と呼びます。", ref: "[40]" },
+            { id: 512, source: "派生・PF", q: "一定額ずつ定期的に購入することで平均購入単価を平準化する手法は？", options: ["ドルコスト平均法", "バリュー平均法", "一括投資法", "逆張り手法"], a: 0, note: "定額購入法をドルコスト平均法と呼びます。", ref: "[42]" },
+            { id: 513, source: "派生・PF", q: "市場全体に起因し、分散投資でも消せないリスクを何というか？", options: ["アンシステマティックリスク", "システマティックリスク", "信用リスク", "固有リスク"], a: 1, note: "市場全体のリスク（システマティックリスク）は分散投資では排除できません。", ref: "[42]" },
+            { id: 514, source: "派生・PF", q: "アセットアロケーションとは何を意味するか？", options: ["個別銘柄の選定", "資産配分の決定", "売買タイミングの決定", "デリバティブの活用"], a: 1, note: "資産（アセット）の配分（アロケーション）を決めることです。", ref: "[38]" },
+            { id: 515, source: "派生・PF", q: "裁定取引（アービトラージ）の目的は？", options: ["価格変動リスクのヘッジ", "割高なものを売り割安なものを買ってサヤを抜く", "ハイリスク・ハイリターンの追求", "相場の方向性を予測する"], a: 1, note: "価格差（サヤ）を利用して利ざやを得る取引です。", ref: "[35]" },
+            { id: 516, source: "派生・PF", q: "コールオプションの「売り手」は、相場がどうなると損失が出るか？", options: ["大きく上昇したとき", "大きく下落したとき", "動かないとき", "常に利益が出る"], a: 0, note: "コール（買う権利）を売っているので、価格が上昇して権利行使されると、安く売る義務が生じ損失が出ます。", ref: "[36][43]" },
+            { id: 517, source: "派生・PF", q: "相関係数が「0」である場合、2つの資産の関係は？", options: ["完全に同じ動き", "完全に逆の動き", "無相関（関係がない）", "連動性が高い"], a: 2, note: "0は無相関を意味します。", ref: "[39]" },
+            { id: 518, source: "派生・PF", q: "標準偏差が大きく、正規分布に従う場合、収益の振れ幅はどうなるか？", options: ["小さくなる", "大きくなる", "変わらない", "プラスになる"], a: 1, note: "標準偏差が大きい＝リスク（ばらつき）が大きいことを意味します。", ref: "[41]" },
+            { id: 519, source: "派生・PF", q: "ポートフォリオの期待収益率はどのように計算されるか？", options: ["各資産の期待収益率の加重平均", "各資産の期待収益率の単純平均", "最も高い資産の収益率", "リスクフリーレートとの差"], a: 0, note: "組み入れ比率に応じた加重平均で計算されます。", ref: "[44]" },
+            { id: 520, source: "派生・PF", q: "ヘッジ取引における「売りヘッジ」の目的は？", options: ["現物の値上がり益を狙う", "現物の値下がりリスクを回避する", "配当を得る", "為替差益を得る"], a: 1, note: "現物を持っている時に、先物を売ることで値下がり時の損失を相殺（ヘッジ）します。", ref: "[35]" },
+
+            // --- SOURCE 6: 税金・制度 (Questions 101-120) ---
+            { id: 601, source: "税金・制度", q: "預貯金の利子や上場株式の配当等に対する一般的な税率は？（復興特別所得税含む）", options: ["10%", "15%", "20%", "20.315%"], a: 3, note: "所得税15.315% ＋ 住民税5% ＝ 20.315% です。", ref: "[45]" },
+            { id: 602, source: "税金・制度", q: "特定口座（源泉徴収あり）を選択した場合のメリットは？", options: ["税金がかからない", "確定申告が不要になる", "手数料が安くなる", "損益通算が自動で無限にできる"], a: 1, note: "税金が自動で徴収されるため、原則として確定申告が不要になります。", ref: "[46]" },
+            { id: 603, source: "税金・制度", q: "上場株式等の譲渡損失は、確定申告をすれば何年間繰越控除できるか？", options: ["1年間", "3年間", "5年間", "10年間"], a: 1, note: "翌年以降3年間にわたり繰越控除が可能です。", ref: "[46]" },
+            { id: 604, source: "税金・制度", q: "新NISA（2024年〜）の「つみたて投資枠」と「成長投資枠」は併用できるか？", options: ["併用できる", "併用できない", "金融機関を変えればできる", "年ごとに選択する"], a: 0, note: "新NISAでは両方の枠を併用可能です（旧NISAは不可でした）。", ref: "[9]" },
+            { id: 605, source: "税金・制度", q: "新NISAの非課税保有限度額（総枠）はいくらか？", options: ["600万円", "1,200万円", "1,800万円", "無制限"], a: 2, note: "生涯の非課税限度額は1,800万円（うち成長投資枠は1,200万円まで）です。", ref: "[9]" },
+            { id: 606, source: "税金・制度", q: "投資信託の「特別分配金」に対する税金は？", options: ["20.315%", "10%", "総合課税", "非課税"], a: 3, note: "元本の払い戻しに相当するため、非課税です。", ref: "[45]" },
+            { id: 607, source: "税金・制度", q: "預金保険制度で保護される「一般預金」の限度額は？", options: ["全額", "元本1,000万円まで", "元本1,000万円＋利息等", "元本のみ"], a: 2, note: "1金融機関につき預金者1人あたり、元本1,000万円までと、その利息等が保護されます。", ref: "[9]" },
+            { id: 608, source: "税金・制度", q: "日本投資者保護基金が補償する対象は？", options: ["銀行預金", "証券会社が分別管理を怠って破綻した場合の顧客資産", "株価下落による損失", "FX取引の損失"], a: 1, note: "証券会社の破綻時に、分別管理されていなかった資産を1,000万円まで補償します。", ref: "[34]" },
+            { id: 609, source: "税金・制度", q: "消費者契約法における取消権の消滅時効は、追認できる時から何年か？", options: ["6ヶ月", "1年", "3年", "5年"], a: 1, note: "追認できる時から1年、契約締結時から5年で消滅します。", ref: "[34]" },
+            { id: 610, source: "税金・制度", q: "金融商品取引法で禁止されている行為はどれか？", options: ["元本保証の約束", "損失補填", "断定的判断の提供", "これらすべて"], a: 3, note: "元本保証、損失補填、断定的判断の提供はすべて禁止されています。", ref: "[47]" },
+            { id: 611, source: "税金・制度", q: "犯罪収益移転防止法において、本人確認が必要となる大口現金取引の基準は？", options: ["100万円超", "200万円超", "500万円超", "1000万円超"], a: 1, note: "200万円を超える大口現金取引等の際に本人確認が必要です。", ref: "[48]" },
+            { id: 612, source: "税金・制度", q: "新NISAの「つみたて投資枠」の年間投資枠は？", options: ["40万円", "80万円", "120万円", "240万円"], a: 2, note: "つみたて投資枠は年間120万円、成長投資枠は240万円です。", ref: "[9]" },
+            { id: 613, source: "税金・制度", q: "旧NISA（一般NISA）の非課税期間終了後、新NISAへロールオーバーできるか？", options: ["できる", "できない", "手続きすればできる", "つみたて枠のみできる"], a: 1, note: "旧NISAから新NISAへのロールオーバー（移管）はできません。", ref: "[32]" },
+            { id: 614, source: "税金・制度", q: "預金保険制度の対象とならないものは？", options: ["普通預金", "定期預金", "外貨預金", "元本補填契約のある金銭信託"], a: 2, note: "外貨預金や譲渡性預金は預金保険制度の対象外です。", ref: "[34]" },
+            { id: 615, source: "税金・制度", q: "金融商品販売法（金融サービス提供法）で、重要事項の説明義務違反があった場合の損害賠償責任は？", options: ["過失責任", "無過失責任", "故意責任", "重過失責任"], a: 1, note: "業者の過失の有無を問わない「無過失責任」を負います。", ref: "[47]" },
+            { id: 616, source: "税金・制度", q: "金融商品取引法の「適合性の原則」とは？", options: ["顧客の知識や資産状況に不適合な勧誘をしてはならない", "全ての人に同じ商品を勧める", "利益が出る商品のみ勧める", "手数料が安い商品を勧める"], a: 0, note: "顧客の属性（知識、経験、財産、目的）に照らして不適当な勧誘の禁止です。", ref: "[47]" },
+            { id: 617, source: "税金・制度", q: "本人確認記録や取引記録の保存期間は？", options: ["3年間", "5年間", "7年間", "10年間"], a: 2, note: "取引日から7年間の保存義務があります。", ref: "[48]" },
+            { id: 618, source: "税金・制度", q: "上場株式の配当金を総合課税で申告した場合に適用できる控除は？", options: ["配当控除", "基礎控除", "青色申告特別控除", "給与所得控除"], a: 0, note: "総合課税を選択すると配当控除が受けられます（J-REIT等は対象外）。", ref: "[45]" },
+            { id: 619, source: "税金・制度", q: "投資者保護基金に加入義務がない金融機関は？", options: ["証券会社", "銀行", "先物取引業者", "投資顧問会社"], a: 1, note: "銀行は投資者保護基金に加入できません（預金保険制度があるため）。", ref: "[34]" },
+            { id: 620, source: "税金・制度", q: "新NISAで売却した場合、非課税保有限度額（枠）はどうなるか？", options: ["復活しない", "翌年に簿価ベースで復活する", "即座に復活する", "利益分だけ減る"], a: 1, note: "売却した商品の取得価額（簿価）分の枠が、翌年に復活します。", ref: "[9]" }
+        ];
+
+        // === システム変数 ===
+        let currentQuizSet = [];
+        let currentIndex = 0;
+        let correctCount = 0;
+        let currentMode = "";
+
+        // 履歴管理（ローカルストレージ）
+        function getHistory() {
+            const stored = localStorage.getItem('fp2_master_history');
+            return stored ? JSON.parse(stored) : {};
+        }
+
+        // 履歴保存：{ id: boolean(正解ならtrue, 不正解ならfalse) }
+        function saveHistory(questionId, isCorrect) {
+            const history = getHistory();
+            // 一度「正解(true)」になったら、後で間違えてもtrueのまま（制覇扱い）にする場合
+            // 今回は「弱点」を判定したいので、最新の結果で上書きするロジックにします。
+            // ただし「全問制覇」判定のため、一度trueになったフラグは保持したいニーズもあります。
+            // ここではシンプルに「最新の結果」を保存しつつ、別途「mastered」リストを持つか、
+            // あるいは「一度でも正解したらtrue」方式にします。
+            // ユーザー要望の「弱点克服」＝「間違えた問題」なので、
+            // history[id] === true (正解済み), false (間違えた), undefined (未回答) とします。
+
+            if (history[questionId] !== true) { // 既に正解済みでなければ更新
+                history[questionId] = isCorrect;
+            } else if (!isCorrect) {
+                // 正解済みでも今回間違えたら「弱点」に戻す？
+                // 一般的な「制覇」モードでは一度正解すればOKですが、
+                // 復習の意味で「今回間違えたらfalse」に上書きします。
+                history[questionId] = false;
+            }
+
+            localStorage.setItem('fp2_master_history', JSON.stringify(history));
+            updateStatus();
+        }
+
+        function resetHistory() {
+            if (confirm("学習履歴をすべて削除しますか？")) {
+                localStorage.removeItem('fp2_master_history');
+                updateStatus();
+                alert("履歴をリセットしました。");
+            }
+        }
+
+        function updateStatus() {
+            const history = getHistory();
+            const allIds = questionData.map(q => q.id);
+
+            // 正解済み（制覇）数
+            const masteredCount = allIds.filter(id => history[id] === true).length;
+
+            // 弱点数（一度解いてfalseのもの）
+            const weakCount = allIds.filter(id => history[id] === false).length;
+
+            // 未回答数
+            const untouchedCount = allIds.filter(id => history[id] === undefined).length;
+
+            document.getElementById('badge-conquest').textContent = `残${120 - masteredCount}問`;
+            document.getElementById('badge-weak').textContent = `対象${weakCount}問`;
+            document.getElementById('history-status').textContent = `現在の進捗：正解済み ${masteredCount} / 全120問`;
+        }
+
+        // === クイズ開始処理 ===
+        function startQuiz(mode) {
+            currentMode = mode;
+            const history = getHistory();
+            let pool = [...questionData]; // 全問コピー
+
+            if (mode === 'random') {
+                // 全問からランダムに30問
+                pool = shuffleArray(pool).slice(0, 30);
+                document.getElementById('mode-display').textContent = "ランダムテスト (30問)";
+
+            } else if (mode === 'conquest') {
+                // 未正解（false または undefined）の問題のみ抽出
+                pool = pool.filter(q => history[q.id] !== true);
+
+                if (pool.length === 0) {
+                    alert("おめでとうございます！全問制覇済みです。ランダムモードで復習しましょう。");
+                    return;
+                }
+                // ランダムに並べて最大30問
+                pool = shuffleArray(pool).slice(0, 30);
+                document.getElementById('mode-display').textContent = `全問制覇コース (${pool.length}問)`;
+
+            } else if (mode === 'weak') {
+                // 間違えた問題（false）を抽出
+                let weakPool = pool.filter(q => history[q.id] === false);
+
+                if (weakPool.length === 0) {
+                    // 弱点がない場合
+                    if (Object.keys(history).length === 0) {
+                        alert("まだ履歴がありません。まずは他のコースで学習しましょう。");
+                        return;
+                    } else {
+                        alert("現在、弱点（不正解）となっている問題はありません！");
+                        return;
+                    }
+                }
+                // 最大30問
+                pool = shuffleArray(weakPool).slice(0, 30);
+                document.getElementById('mode-display').textContent = `弱点克服コース (${pool.length}問)`;
+            }
+
+            currentQuizSet = pool;
+            currentIndex = 0;
+            correctCount = 0;
+
+            // 画面切り替え
+            document.getElementById('start-screen').style.display = 'none';
+            document.getElementById('quiz-interface').style.display = 'block';
+            document.getElementById('final-screen').style.display = 'none';
+
+            showQuestion();
+        }
+
+        function showQuestion() {
+            const qData = currentQuizSet[currentIndex];
+            document.getElementById('progress-text').textContent = `残り: ${currentQuizSet.length - currentIndex} 問`;
+            document.getElementById('source-name').textContent = qData.cat;
+            document.getElementById('question-text').textContent = qData.q;
+
+            document.getElementById('options-area').style.display = 'flex';
+            document.getElementById('result-feedback').style.display = 'none';
+            document.getElementById('next-btn').style.display = 'none';
+        }
+
+        function checkAnswer(userAnswer) {
+            const qData = currentQuizSet[currentIndex];
+            const isCorrect = (userAnswer === qData.a);
+
+            // 履歴保存
+            saveHistory(qData.id, isCorrect);
+
+            const resultTitle = document.getElementById('result-title');
+            const resultExp = document.getElementById('result-explanation');
+            const resultRef = document.getElementById('result-citation');
+            const resultBox = document.getElementById('result-feedback');
+
+            document.getElementById('options-area').style.display = 'none';
+            resultBox.style.display = 'block';
+            document.getElementById('next-btn').style.display = 'block';
+
+            if (isCorrect) {
+                correctCount++;
+                resultTitle.textContent = "正解！";
+                resultBox.className = "result-area correct-msg";
+            } else {
+                resultTitle.textContent = "不正解...";
+                resultBox.className = "result-area incorrect-msg";
+            }
+
+            const answerStr = qData.a ? "〇" : "×";
+            resultExp.innerHTML = `<strong>正解：${answerStr}</strong><br>${qData.exp}`;
+            resultRef.textContent = `出典: ${qData.ref}`;
+        }
+
+        function nextQuestion() {
+            currentIndex++;
+            if (currentIndex < currentQuizSet.length) {
+                showQuestion();
+            } else {
+                showFinalResult();
+            }
+        }
+
+        function showFinalResult() {
+            document.getElementById('quiz-interface').style.display = 'none';
+            document.getElementById('final-screen').style.display = 'block';
+
+            document.getElementById('final-score-display').textContent = `${correctCount} / ${currentQuizSet.length}`;
+
+            const comment = document.getElementById('final-comment');
+            const percentage = (correctCount / currentQuizSet.length) * 100;
+
+            if (percentage === 100) {
+                comment.textContent = "満点です！完璧ですね！";
+                comment.style.color = "#27ae60";
+            } else if (percentage >= 80) {
+                comment.textContent = "素晴らしい成績です！";
+                comment.style.color = "#2980b9";
+            } else {
+                comment.textContent = "復習して弱点を克服しましょう。";
+                comment.style.color = "#c0392b";
+            }
+
+            // 履歴表示更新
+            updateStatus();
+        }
+
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        // 初期化
+        window.onload = updateStatus;
+
+    </script>
+
+</body>
+
+</html>
