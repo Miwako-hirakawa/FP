@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FP試験 〇×完全攻略</title>
+    <link rel="stylesheet" href="fp2_quiz.css">
+</head>
+
+<body>
+
+    <div class="container">
+        <!-- Title will be updated by JS -->
+        <h1 id="page-title">FP試験<br> 〇×完全攻略（全120問）</h1>
+
+        <!-- スタート画面 -->
+        <div id="start-screen">
+            <div style="text-align: left; margin-bottom: 10px;">
+                <a href="index.html"
+                    style="text-decoration: none; color: #7f8c8d; font-weight: bold; font-size: 1.1em;">&larr;
+                    ホームに戻る</a>
+            </div>
+            <p style="text-align:center; margin-bottom:20px; font-weight:bold;">コースを選択してください</p>
+            <div class="menu-grid">
+                <button class="menu-btn btn-random" onclick="startQuiz('random')">
+                    ランダムテスト
+                    <span class="menu-desc">全120問からランダムに30問出題</span>
+                </button>
+                <button class="menu-btn btn-all" onclick="startQuiz('conquest')">
+                    全問制覇コース
+                    <span class="menu-desc">未正解の問題から最大30問出題</span>
+                    <span class="menu-badge" id="badge-conquest">残120問</span>
+                </button>
+                <button class="menu-btn btn-weak" onclick="startQuiz('weak')">
+                    弱点克服コース
+                    <span class="menu-desc">間違えた問題を優先して最大30問出題</span>
+                    <span class="menu-badge" id="badge-weak">対象0問</span>
+                </button>
+            </div>
+            <div class="history-control">
+                <p id="history-status">進捗状況：読込中...</p>
+                <button class="btn-reset" onclick="resetHistory()">学習履歴をリセットする</button>
+            </div>
+        </div>
+
+        <!-- クイズ画面 -->
+        <div id="quiz-interface" style="display: none;">
+            <div class="status-bar">
+                <span id="mode-display">モード</span>
+                <span id="progress-text">残り: - 問</span>
+            </div>
+
+            <div class="source-tag" id="source-name">分野名</div>
+            <div class="question-box" id="question-text"></div>
+
+            <div class="options" id="options-area">
+                <button class="ans-btn btn-o" onclick="checkAnswer(true)">〇</button>
+                <button class="ans-btn btn-x" onclick="checkAnswer(false)">×</button>
+            </div>
+
+            <div class="result-area" id="result-feedback">
+                <h3 id="result-title"></h3>
+                <div id="result-explanation" class="explanation"></div>
+                <span class="citation" id="result-citation"></span>
+                <button class="btn-next" id="next-btn" onclick="nextQuestion()">次の問題へ</button>
+            </div>
+        </div>
+
+        <!-- 終了画面 -->
+        <div class="final-score" id="final-screen">
+            <h2>セッション終了</h2>
+            <p>今回の正解数</p>
+            <div class="score-number" id="final-score-display">0 / 0</div>
+            <p id="final-comment"></p>
+            <button class="menu-btn btn-random" style="width:100%; margin-top:20px; text-align:center;"
+                onclick="location.reload()">メニューに戻る</button>
+            <button class="menu-btn"
+                style="width:100%; margin-top:10px; text-align:center; background-color: #95a5a6; color: white;"
+                onclick="location.href='index.html'">ホームに戻る</button>
+        </div>
+    </div>
+
+    <!-- Script to handle dynamic loading and quiz logic -->
+    <script>
+        // === 初期設定・パラメータ解析 ===
+        const params = new URLSearchParams(window.location.search);
+        const subject = params.get('subject');
+
+        let historyKey = 'fp2_master_history'; // Default
+        let scriptSrc = '';
+
+        if (subject === 'life') {
+            document.title = "FP試験-ライフプランニング 〇×完全攻略";
+            document.getElementById('page-title').innerHTML = "FP試験-ライフプランニング<br> 〇×完全攻略（全120問）";
+            historyKey = 'fp2_Life_history';
+            scriptSrc = 'fp2_Life_questions.js';
+        } else if (subject === 'finance') {
+            document.title = "FP試験-金融資産運用 〇×完全攻略";
+            document.getElementById('page-title').innerHTML = "FP試験-金融資産運用<br> 〇×完全攻略（全120問）";
+            historyKey = 'fp2_finance_history';
+            scriptSrc = 'fp2_Finance_quiz.js';
+        } else {
+            // Default or Error case
+            document.body.innerHTML = '<div class="container"><h1>エラー</h1><p>科目が指定されていません。<a href="index.html">ホームに戻る</a></p></div>';
+            throw new Error("No subject specified");
+        }
+
+        // 動的にスクリプトをロード
+        const script = document.createElement('script');
+        script.src = scriptSrc;
+        script.onload = () => {
+            // スクリプト読み込み完了後に初期化を実行
+            updateStatus();
+        };
+        document.body.appendChild(script);
+
+        // === システム変数 ===
+        let currentQuizSet = [];
+        let currentIndex = 0;
+        let correctCount = 0;
+        let currentMode = "";
+
+        // 履歴管理（ローカルストレージ）
+        function getHistory() {
+            const stored = localStorage.getItem(historyKey);
+            return stored ? JSON.parse(stored) : {};
+        }
+
+        function saveHistory(questionId, isCorrect) {
+            const history = getHistory();
+
+            if (history[questionId] !== true) { // 既に正解済みでなければ更新
+                history[questionId] = isCorrect;
+            } else if (!isCorrect) {
+                // 正解済みでも今回間違えたら「弱点」に戻す
+                history[questionId] = false;
+            }
+
+            localStorage.setItem(historyKey, JSON.stringify(history));
+            updateStatus();
+        }
+
+        function resetHistory() {
+            if (confirm("学習履歴をすべて削除しますか？")) {
+                localStorage.removeItem(historyKey);
+                updateStatus();
+                alert("履歴をリセットしました。");
+            }
+        }
+
+        function updateStatus() {
+            if (typeof questionData === 'undefined') return; // データ読み込み前ガード
+
+            const history = getHistory();
+            const allIds = questionData.map(q => q.id);
+
+            // 正解済み（制覇）数
+            const masteredCount = allIds.filter(id => history[id] === true).length;
+
+            // 弱点数（一度解いてfalseのもの）
+            const weakCount = allIds.filter(id => history[id] === false).length;
+
+            // 未回答数
+            const untouchedCount = allIds.filter(id => history[id] === undefined).length;
+
+            document.getElementById('badge-conquest').textContent = `残${allIds.length - masteredCount}問`; // 全問数動的対応
+            document.getElementById('badge-weak').textContent = `対象${weakCount}問`;
+            document.getElementById('history-status').textContent = `現在の進捗：正解済み ${masteredCount} / 全${allIds.length}問`;
+        }
+
+        // === クイズ開始処理 ===
+        function startQuiz(mode) {
+            currentMode = mode;
+            const history = getHistory();
+            let pool = [...questionData]; // 全問コピー
+
+            if (mode === 'random') {
+                // 全問からランダムに30問
+                pool = shuffleArray(pool).slice(0, 30);
+                document.getElementById('mode-display').textContent = "ランダムテスト (30問)";
+
+            } else if (mode === 'conquest') {
+                // 未正解（false または undefined）の問題のみ抽出
+                pool = pool.filter(q => history[q.id] !== true);
+
+                if (pool.length === 0) {
+                    alert("おめでとうございます！全問制覇済みです。ランダムモードで復習しましょう。");
+                    return;
+                }
+                // ランダムに並べて最大30問
+                pool = shuffleArray(pool).slice(0, 30);
+                document.getElementById('mode-display').textContent = `全問制覇コース (${pool.length}問)`;
+
+            } else if (mode === 'weak') {
+                // 間違えた問題（false）を抽出
+                let weakPool = pool.filter(q => history[q.id] === false);
+
+                if (weakPool.length === 0) {
+                    // 弱点がない場合
+                    if (Object.keys(history).length === 0) {
+                        alert("まだ履歴がありません。まずは他のコースで学習しましょう。");
+                        return;
+                    } else {
+                        alert("現在、弱点（不正解）となっている問題はありません！");
+                        return;
+                    }
+                }
+
+                // 最大30問
+                pool = shuffleArray(weakPool).slice(0, 30);
+                document.getElementById('mode-display').textContent = `弱点克服コース (${pool.length}問)`;
+            }
+
+            currentQuizSet = pool;
+            currentIndex = 0;
+            correctCount = 0;
+
+            // 画面切り替え
+            document.getElementById('start-screen').style.display = 'none';
+            document.getElementById('quiz-interface').style.display = 'block';
+            document.getElementById('final-screen').style.display = 'none';
+
+            showQuestion();
+        }
+
+        function showQuestion() {
+            const qData = currentQuizSet[currentIndex];
+            document.getElementById('progress-text').textContent = `残り: ${currentQuizSet.length - currentIndex} 問`;
+            // sourceプロパティがない場合（Lifeの方）は cat を使う、Financeは source
+            const category = qData.source || qData.cat;
+            document.getElementById('source-name').textContent = category;
+            document.getElementById('question-text').textContent = qData.q;
+
+            document.getElementById('options-area').style.display = 'flex';
+            document.getElementById('result-feedback').style.display = 'none';
+            document.getElementById('next-btn').style.display = 'none';
+        }
+
+        function checkAnswer(userAnswer) {
+            const qData = currentQuizSet[currentIndex];
+            const isCorrect = (userAnswer === qData.a);
+
+            // 履歴保存
+            saveHistory(qData.id, isCorrect);
+
+            const resultTitle = document.getElementById('result-title');
+            const resultExp = document.getElementById('result-explanation');
+            const resultRef = document.getElementById('result-citation');
+            const resultBox = document.getElementById('result-feedback');
+
+            document.getElementById('options-area').style.display = 'none';
+            resultBox.style.display = 'block';
+            document.getElementById('next-btn').style.display = 'block';
+
+            if (isCorrect) {
+                correctCount++;
+                resultTitle.textContent = "正解！";
+                resultBox.className = "result-area correct-msg";
+            } else {
+                resultTitle.textContent = "不正解...";
+                resultBox.className = "result-area incorrect-msg";
+            }
+
+            const answerStr = qData.a ? "〇" : "×";
+            resultExp.innerHTML = `<strong>正解：${answerStr}</strong><br>${qData.exp}`;
+            resultRef.textContent = `出典: ${qData.ref}`;
+        }
+
+        function nextQuestion() {
+            currentIndex++;
+            if (currentIndex < currentQuizSet.length) {
+                showQuestion();
+            } else {
+                showFinalResult();
+            }
+        }
+
+        function showFinalResult() {
+            document.getElementById('quiz-interface').style.display = 'none';
+            document.getElementById('final-screen').style.display = 'block';
+
+            document.getElementById('final-score-display').textContent = `${correctCount} / ${currentQuizSet.length}`;
+
+            const comment = document.getElementById('final-comment');
+            const percentage = (correctCount / currentQuizSet.length) * 100;
+
+            if (percentage === 100) {
+                comment.textContent = "満点です！完璧ですね！";
+                comment.style.color = "#27ae60";
+            } else if (percentage >= 80) {
+                comment.textContent = "素晴らしい成績です！";
+                comment.style.color = "#2980b9";
+            } else {
+                comment.textContent = "復習して弱点を克服しましょう。";
+                comment.style.color = "#c0392b";
+            }
+
+            // 履歴表示更新
+            updateStatus();
+        }
+
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+    </script>
+
+</body>
+
+</html>
