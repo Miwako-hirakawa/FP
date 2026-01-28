@@ -25,7 +25,7 @@
             <div class="menu-grid">
                 <button class="menu-btn btn-random" onclick="startQuiz('random')">
                     ランダムテスト
-                    <span class="menu-desc">全120問からランダムに30問出題</span>
+                    <span class="menu-desc" id="desc-random">全問からランダムに30問出題</span>
                 </button>
                 <button class="menu-btn btn-all" onclick="startQuiz('conquest')">
                     全問制覇コース
@@ -105,6 +105,11 @@
             document.getElementById('page-title').innerHTML = "FP試験-リスク管理<br> 〇×完全攻略（全80問）";
             historyKey = 'fp2_risk_history';
             scriptSrc = 'fp2_Risk_quiz.js';
+        } else if (subject === 'tax') {
+            document.title = "FP試験-タックスプランニング 〇×完全攻略";
+            document.getElementById('page-title').innerHTML = "FP試験-タックスプランニング<br> 〇×完全攻略（全180問）";
+            historyKey = 'fp2_tax_history';
+            scriptSrc = 'fp2_Tax_quiz.js';
         } else {
             // Default or Error case
             document.body.innerHTML = '<div class="container"><h1>エラー</h1><p>科目が指定されていません。<a href="index.html">ホームに戻る</a></p></div>';
@@ -172,6 +177,9 @@
             document.getElementById('badge-conquest').textContent = `残${allIds.length - masteredCount}問`; // 全問数動的対応
             document.getElementById('badge-weak').textContent = `対象${weakCount}問`;
             document.getElementById('history-status').textContent = `現在の進捗：正解済み ${masteredCount} / 全${allIds.length}問`;
+
+            // ランダムコースの説明文も動的に更新
+            document.getElementById('desc-random').textContent = `全${allIds.length}問からランダムに30問出題`;
         }
 
         // === クイズ開始処理 ===

@@ -5,165 +5,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FP試験 〇×完全攻略メニュー</title>
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: "Helvetica Neue", Arial, sans-serif;
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: #333;
-        }
-
-        .container {
-            width: 100%;
-            max-width: 600px;
-            padding: 20px;
-        }
-
-        h1 {
-            text-align: center;
-            font-size: 2.2em;
-            margin-bottom: 40px;
-            color: #2c3e50;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            letter-spacing: 2px;
-        }
-
-        .card-grid {
-            display: grid;
-            gap: 25px;
-        }
-
-        .card {
-            display: flex;
-            flex-direction: column;
-            text-decoration: none;
-            background: white;
-            border-radius: 16px;
-            padding: 35px 30px;
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
-            position: relative;
-            overflow: hidden;
-            border-left: 8px solid #ccc;
-        }
-
-        .card:hover {
-            transform: translateY(-5px) scale(1.02);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-        }
-
-        .card-title {
-            font-size: 1.6em;
-            font-weight: bold;
-            margin-bottom: 8px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .card-desc {
-            font-size: 0.95em;
-            color: #7f8c8d;
-            font-weight: 500;
-        }
-
-        /* 金融資産運用 */
-        .card-finance {
-            border-left-color: #3498db;
-        }
-
-        .card-finance .card-title {
-            color: #2980b9;
-        }
-
-        .card-finance::after {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(52, 152, 219, 0.05));
-            pointer-events: none;
-        }
-
-        /* リスク管理 */
-        .card-risk {
-            border-left-color: #e74c3c;
-        }
-
-        .card-risk .card-title {
-            color: #c0392b;
-        }
-
-        .card-risk::after {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(231, 76, 60, 0.05));
-            pointer-events: none;
-        }
-
-        /* ライフプランニング */
-        .card-life {
-            border-left-color: #27ae60;
-        }
-
-        .card-life .card-title {
-            color: #27ae60;
-        }
-
-        .card-life::after {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(39, 174, 96, 0.05));
-            pointer-events: none;
-        }
-
-        .icon-bg {
-            position: absolute;
-            right: 0px;
-            bottom: -15px;
-            font-size: 7em;
-            opacity: 0.15;
-            transform: rotate(-10deg);
-            pointer-events: none;
-            transition: transform 0.3s ease, opacity 0.3s ease;
-        }
-
-        .card:hover .icon-bg {
-            transform: rotate(0deg) scale(1.1);
-            opacity: 0.3;
-        }
-
-        @media (max-width: 480px) {
-            h1 {
-                font-size: 1.8em;
-            }
-
-            .card {
-                padding: 25px;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="index.css">
 </head>
 
 <body>
     <div class="container">
         <h1>FP2級 〇×完全攻略</h1>
         <div class="card-grid">
+            <a href="fp2_quiz_master.html?subject=life" class="card card-life">
+                <span class="card-title">ライフプランニング</span>
+                <span class="card-desc">全120問をマスターしよう</span>
+                <span class="icon-bg">🏡</span>
+            </a>
             <a href="fp2_quiz_master.html?subject=finance" class="card card-finance">
                 <span class="card-title">金融資産運用</span>
                 <span class="card-desc">全120問をマスターしよう</span>
@@ -174,10 +27,10 @@
                 <span class="card-desc">全80問をマスターしよう</span>
                 <span class="icon-bg">🛡️</span>
             </a>
-            <a href="fp2_quiz_master.html?subject=life" class="card card-life">
-                <span class="card-title">ライフプランニング</span>
-                <span class="card-desc">全120問をマスターしよう</span>
-                <span class="icon-bg">🏡</span>
+            <a href="fp2_quiz_master.html?subject=tax" class="card card-tax">
+                <span class="card-title">タックスプランニング</span>
+                <span class="card-desc">全180問をマスターしよう</span>
+                <span class="icon-bg">🧾</span>
             </a>
         </div>
     </div>
