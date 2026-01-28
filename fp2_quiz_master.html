@@ -47,9 +47,14 @@
         <!-- クイズ画面 -->
         <div id="quiz-interface" style="display: none;">
             <div class="status-bar">
-                <span id="subject-icon-display" style="font-size: 1.2em; margin-right: 10px;"></span>
-                <span id="mode-display">モード</span>
-                <span id="progress-text">残り: - 問</span>
+                <div style="display:flex; align-items:center;">
+                    <span id="subject-icon-display" style="font-size: 1.2em; margin-right: 10px;"></span>
+                    <span id="mode-display">モード</span>
+                </div>
+                <div>
+                    <span id="progress-text">残り: - 問</span>
+                    <button class="btn-quit" onclick="quitQuiz()" style="margin-left:10px;">中断</button>
+                </div>
             </div>
 
             <div class="source-tag" id="source-name">分野名</div>
@@ -308,14 +313,38 @@
             }
         }
 
-        function showFinalResult() {
+        function quitQuiz() {
+            if (!confirm("途中ですがテストを終了しますか？")) return;
+
+            // 回答済みかどうかで分母を調整
+            // result-feedbackが表示されている(=回答直後)なら、現在の問題を含める(currentIndex + 1)
+            // そうでなければ(回答前)、現在の問題は含めない(currentIndex)
+            const isResultShown = document.getElementById('result-feedback').style.display === 'block';
+            let attemptedCount = currentIndex;
+            if (isResultShown) {
+                attemptedCount = currentIndex + 1;
+            }
+
+            showFinalResult(attemptedCount);
+        }
+
+        function showFinalResult(overrideTotal) {
             document.getElementById('quiz-interface').style.display = 'none';
             document.getElementById('final-screen').style.display = 'block';
 
-            document.getElementById('final-score-display').textContent = `${correctCount} / ${currentQuizSet.length}`;
+            // 引数があればそれを使う、なければ全問数
+            let total = currentQuizSet.length;
+            if (typeof overrideTotal === 'number') {
+                total = overrideTotal;
+            }
+
+            // 万が一0問で終了した場合
+            if (total === 0) total = 1; // 0除算回避
+
+            document.getElementById('final-score-display').textContent = `${correctCount} / ${total}`;
 
             const comment = document.getElementById('final-comment');
-            const percentage = (correctCount / currentQuizSet.length) * 100;
+            const percentage = (correctCount / total) * 100;
 
             if (percentage === 100) {
                 comment.textContent = "満点です！完璧ですね！";
