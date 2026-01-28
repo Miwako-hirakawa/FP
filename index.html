@@ -92,6 +92,26 @@
             pointer-events: none;
         }
 
+        /* リスク管理 */
+        .card-risk {
+            border-left-color: #e74c3c;
+        }
+
+        .card-risk .card-title {
+            color: #c0392b;
+        }
+
+        .card-risk::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(231, 76, 60, 0.05));
+            pointer-events: none;
+        }
+
         /* ライフプランニング */
         .card-life {
             border-left-color: #27ae60;
@@ -148,6 +168,11 @@
                 <span class="card-title">金融資産運用</span>
                 <span class="card-desc">全120問をマスターしよう</span>
                 <span class="icon-bg">💰</span>
+            </a>
+            <a href="fp2_quiz_master.html?subject=risk" class="card card-risk">
+                <span class="card-title">リスク管理</span>
+                <span class="card-desc">全80問をマスターしよう</span>
+                <span class="icon-bg">🛡️</span>
             </a>
             <a href="fp2_quiz_master.html?subject=life" class="card card-life">
                 <span class="card-title">ライフプランニング</span>

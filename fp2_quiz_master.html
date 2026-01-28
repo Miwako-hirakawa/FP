@@ -100,6 +100,11 @@
             document.getElementById('page-title').innerHTML = "FP試験-金融資産運用<br> 〇×完全攻略（全120問）";
             historyKey = 'fp2_finance_history';
             scriptSrc = 'fp2_Finance_quiz.js';
+        } else if (subject === 'risk') {
+            document.title = "FP試験-リスク管理 〇×完全攻略";
+            document.getElementById('page-title').innerHTML = "FP試験-リスク管理<br> 〇×完全攻略（全80問）";
+            historyKey = 'fp2_risk_history';
+            scriptSrc = 'fp2_Risk_quiz.js';
         } else {
             // Default or Error case
             document.body.innerHTML = '<div class="container"><h1>エラー</h1><p>科目が指定されていません。<a href="index.html">ホームに戻る</a></p></div>';
