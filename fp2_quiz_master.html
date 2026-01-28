@@ -47,6 +47,7 @@
         <!-- クイズ画面 -->
         <div id="quiz-interface" style="display: none;">
             <div class="status-bar">
+                <span id="subject-icon-display" style="font-size: 1.2em; margin-right: 10px;"></span>
                 <span id="mode-display">モード</span>
                 <span id="progress-text">残り: - 問</span>
             </div>
@@ -89,32 +90,44 @@
 
         let historyKey = 'fp2_master_history'; // Default
         let scriptSrc = '';
+        let subjectIconChar = '';
 
         if (subject === 'life') {
             document.title = "FP試験-ライフプランニング 〇×完全攻略";
-            document.getElementById('page-title').innerHTML = "FP試験-ライフプランニング<br> 〇×完全攻略（全120問）";
+            subjectIconChar = '📅';
+            document.getElementById('page-title').innerHTML = "FP試験-ライフプランニング " + subjectIconChar + "<br> 〇×完全攻略（全120問）";
             historyKey = 'fp2_Life_history';
             scriptSrc = 'fp2_Life_questions.js';
         } else if (subject === 'finance') {
             document.title = "FP試験-金融資産運用 〇×完全攻略";
-            document.getElementById('page-title').innerHTML = "FP試験-金融資産運用<br> 〇×完全攻略（全120問）";
+            subjectIconChar = '💰';
+            document.getElementById('page-title').innerHTML = "FP試験-金融資産運用 " + subjectIconChar + "<br> 〇×完全攻略（全120問）";
             historyKey = 'fp2_finance_history';
             scriptSrc = 'fp2_Finance_quiz.js';
         } else if (subject === 'risk') {
             document.title = "FP試験-リスク管理 〇×完全攻略";
-            document.getElementById('page-title').innerHTML = "FP試験-リスク管理<br> 〇×完全攻略（全80問）";
+            subjectIconChar = '🛡️';
+            document.getElementById('page-title').innerHTML = "FP試験-リスク管理 " + subjectIconChar + "<br> 〇×完全攻略（全80問）";
             historyKey = 'fp2_risk_history';
             scriptSrc = 'fp2_Risk_quiz.js';
         } else if (subject === 'tax') {
             document.title = "FP試験-タックスプランニング 〇×完全攻略";
-            document.getElementById('page-title').innerHTML = "FP試験-タックスプランニング<br> 〇×完全攻略（全180問）";
+            subjectIconChar = '🧾';
+            document.getElementById('page-title').innerHTML = "FP試験-タックスプランニング " + subjectIconChar + "<br> 〇×完全攻略（全180問）";
             historyKey = 'fp2_tax_history';
             scriptSrc = 'fp2_Tax_quiz.js';
         } else if (subject === 'estate') {
             document.title = "FP試験-不動産 〇×完全攻略";
-            document.getElementById('page-title').innerHTML = "FP試験-不動産<br> 〇×完全攻略（全100問）";
+            subjectIconChar = '🏡';
+            document.getElementById('page-title').innerHTML = "FP試験-不動産 " + subjectIconChar + "<br> 〇×完全攻略（全100問）";
             historyKey = 'fp2_estate_history';
             scriptSrc = 'fp2_Estate_quiz.js';
+        } else if (subject === 'inheritance') {
+            document.title = "FP試験-相続・事業承継 〇×完全攻略";
+            subjectIconChar = '📜';
+            document.getElementById('page-title').innerHTML = "FP試験-相続・事業承継 " + subjectIconChar + "<br> 〇×完全攻略（全120問）";
+            historyKey = 'fp2_inheritance_history';
+            scriptSrc = 'fp2_Inheritance_quiz.js';
         } else {
             // Default or Error case
             document.body.innerHTML = '<div class="container"><h1>エラー</h1><p>科目が指定されていません。<a href="index.html">ホームに戻る</a></p></div>';
@@ -127,6 +140,7 @@
         script.onload = () => {
             // スクリプト読み込み完了後に初期化を実行
             updateStatus();
+            document.getElementById('subject-icon-display').textContent = subjectIconChar;
         };
         document.body.appendChild(script);
 
