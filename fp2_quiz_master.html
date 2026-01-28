@@ -110,6 +110,11 @@
             document.getElementById('page-title').innerHTML = "FP試験-タックスプランニング<br> 〇×完全攻略（全180問）";
             historyKey = 'fp2_tax_history';
             scriptSrc = 'fp2_Tax_quiz.js';
+        } else if (subject === 'estate') {
+            document.title = "FP試験-不動産 〇×完全攻略";
+            document.getElementById('page-title').innerHTML = "FP試験-不動産<br> 〇×完全攻略（全100問）";
+            historyKey = 'fp2_estate_history';
+            scriptSrc = 'fp2_Estate_quiz.js';
         } else {
             // Default or Error case
             document.body.innerHTML = '<div class="container"><h1>エラー</h1><p>科目が指定されていません。<a href="index.html">ホームに戻る</a></p></div>';
