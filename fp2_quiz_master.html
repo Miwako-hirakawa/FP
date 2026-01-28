@@ -24,17 +24,17 @@
             <p style="text-align:center; margin-bottom:20px; font-weight:bold;">コースを選択してください</p>
             <div class="menu-grid">
                 <button class="menu-btn btn-random" onclick="startQuiz('random')">
-                    ランダムテスト
-                    <span class="menu-desc" id="desc-random">全問からランダムに30問出題</span>
+                    🎲ランダムコース
+                    <span class="menu-desc" id="desc-random">全問からランダムに出題（30問）</span>
                 </button>
                 <button class="menu-btn btn-all" onclick="startQuiz('conquest')">
-                    全問制覇コース
-                    <span class="menu-desc">未正解の問題から最大30問出題</span>
+                    🔰未回答・新問コース
+                    <span class="menu-desc">まだ解いていない問題を出題（最大30問）</span>
                     <span class="menu-badge" id="badge-conquest">残120問</span>
                 </button>
                 <button class="menu-btn btn-weak" onclick="startQuiz('weak')">
-                    弱点克服コース
-                    <span class="menu-desc">間違えた問題を優先して最大30問出題</span>
+                    💪弱点克服コース
+                    <span class="menu-desc">間違えた問題を出題（最大30問）</span>
                     <span class="menu-badge" id="badge-weak">対象0問</span>
                 </button>
             </div>

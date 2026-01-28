@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FP試験 3択完全攻略</title>
+    <link rel="stylesheet" href="fp3_3taku.css">
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>FP試験-ライフプランニング<br>3択完全攻略</h1>
+
+        <!-- スタート画面 -->
+        <div id="start-screen">
+            <p style="text-align:center; font-weight:bold;">挑戦するコースを選択してください（各5問）</p>
+            <div class="menu-grid">
+                <button class="menu-btn btn-random" onclick="startQuiz('random')">
+                    🎲 ランダム演習
+                    <div style="font-size:0.8em; font-weight:normal;">全60問からランダムに出題</div>
+                </button>
+                <button class="menu-btn btn-new" onclick="startQuiz('new')">
+                    🔰 未回答・新問コース
+                    <div style="font-size:0.8em; font-weight:normal;">まだ解いていない問題を優先して出題</div>
+                    <span class="badge" id="badge-new">残 -問</span>
+                </button>
+                <button class="menu-btn btn-weak" onclick="startQuiz('weak')">
+                    💪 弱点克服コース
+                    <div style="font-size:0.8em; font-weight:normal;">間違えた問題を優先して出題</div>
+                    <span class="badge" id="badge-weak">対象 -問</span>
+                </button>
+            </div>
+            <div style="text-align:center;">
+                <p id="history-status">学習データ読込中...</p>
+                <button class="btn-reset" onclick="resetHistory()">履歴をリセットする</button>
+            </div>
+        </div>
+
+        <!-- クイズ画面 -->
+        <div id="quiz-interface" style="display: none;">
+            <div class="status-bar">
+                <span id="mode-display">コース</span>
+                <span id="progress-text">1 / 5 問</span>
+            </div>
+
+            <div class="question-box">
+                <div class="source-tag" id="q-source">分野</div>
+                <div class="q-header" id="q-text">問題文</div>
+                <div class="q-data" id="q-data" style="display:none;"></div>
+            </div>
+
+            <div class="options-list" id="options-area">
+                <!-- ボタンはJSで生成 -->
+            </div>
+
+            <div class="result-area" id="result-feedback">
+                <h3 id="result-title"></h3>
+                <div id="result-explanation" class="explanation"></div>
+                <span class="source-ref" id="result-ref"></span>
+                <button class="btn-next" id="next-btn" onclick="nextQuestion()">次の問題へ</button>
+            </div>
+        </div>
+
+        <!-- 終了画面 -->
+        <div class="final-score" id="final-screen">
+            <h2>試験終了</h2>
+            <p>正解数</p>
+            <div class="score-num" id="final-score-display">0 / 5</div>
+            <button class="menu-btn btn-random" style="width:100%; margin-top:20px; text-align:center;"
+                onclick="location.reload()">メニューに戻る</button>
+        </div>
+    </div>
+
+    <script src="fp3_3taku_Life_quiz.js"></script>
+
+</body>
+
+</html>
