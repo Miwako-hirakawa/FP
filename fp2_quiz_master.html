@@ -11,7 +11,6 @@
 <body>
 
     <div class="container">
-        <!-- Title will be updated by JS -->
         <h1 id="page-title">FP試験<br> 〇×完全攻略（全120問）</h1>
 
         <!-- スタート画面 -->
@@ -25,16 +24,16 @@
             <div class="menu-grid">
                 <button class="menu-btn btn-random" onclick="startQuiz('random')">
                     🎲ランダムコース
-                    <span class="menu-desc" id="desc-random">全問からランダムに出題（30問）</span>
+                    <span class="menu-desc" id="desc-random">全問からランダムに30問出題</span>
                 </button>
                 <button class="menu-btn btn-all" onclick="startQuiz('conquest')">
                     🔰未回答・新問コース
-                    <span class="menu-desc">まだ解いていない問題を出題（最大30問）</span>
+                    <span class="menu-desc">まだ解いていない問題を最大30問出題</span>
                     <span class="menu-badge" id="badge-conquest">残120問</span>
                 </button>
                 <button class="menu-btn btn-weak" onclick="startQuiz('weak')">
                     💪弱点克服コース
-                    <span class="menu-desc">間違えた問題を出題（最大30問）</span>
+                    <span class="menu-desc">間違えた問題を最大30問出題</span>
                     <span class="menu-badge" id="badge-weak">対象0問</span>
                 </button>
             </div>
@@ -49,7 +48,7 @@
             <div class="status-bar">
                 <div style="display:flex; align-items:center;">
                     <span id="subject-icon-display" style="font-size: 1.2em; margin-right: 10px;"></span>
-                    <span id="mode-display">モード</span>
+                    <span id="mode-display">コース</span>
                 </div>
                 <div>
                     <span id="progress-text">残り: - 問</span>
@@ -215,14 +214,14 @@
             if (mode === 'random') {
                 // 全問からランダムに30問
                 pool = shuffleArray(pool).slice(0, 30);
-                document.getElementById('mode-display').textContent = "ランダムテスト (30問)";
+                document.getElementById('mode-display').textContent = "ランダムコース (30問)";
 
             } else if (mode === 'conquest') {
                 // 未正解（false または undefined）の問題のみ抽出
                 pool = pool.filter(q => history[q.id] !== true);
 
                 if (pool.length === 0) {
-                    alert("おめでとうございます！全問制覇済みです。ランダムモードで復習しましょう。");
+                    alert("おめでとうございます！全問制覇済みです。ランダムコースで復習しましょう。");
                     return;
                 }
                 // ランダムに並べて最大30問
