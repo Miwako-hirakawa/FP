@@ -91,13 +91,17 @@
         let titleText = '3択完全攻略';
 
         if (subject === 'life') {
-            titleText = 'ライフプランニング<br>3択完全攻略';
+            titleText = 'ライフプランニング<br>三択完全攻略';
             historyKey = 'fp3_life_history';
             scriptSrc = 'fp3_3taku_Life_quiz.js';
         } else if (subject === 'risk') {
-            titleText = 'リスク管理<br>3択完全攻略';
+            titleText = 'リスク管理<br>三択完全攻略';
             historyKey = 'fp3_risk_history';
             scriptSrc = 'fp3_3taku_Risk_quiz.js';
+        } else if (subject === 'finance') {
+            titleText = '金融資産運用<br>三択完全攻略';
+            historyKey = 'fp3_finance_history';
+            scriptSrc = 'fp3_3taku_Finance_quiz.js';
         } else {
             document.body.innerHTML = '<div class="container"><h1>エラー</h1><p>科目が指定されていません。<a href="index.html">メニューに戻る</a></p></div>';
             throw new Error("No subject specified");
