@@ -4,22 +4,26 @@ let currentIndex = 0;
 let correctCount = 0;
 
 // === 履歴管理 (Local Storage) ===
+function getHistoryKey() {
+    return window.quizHistoryKey || 'fp2_practical_master_history';
+}
+
 function getHistory() {
     // { "s1_01": true/false, ... }
-    const data = localStorage.getItem('fp2_practical_master_history');
+    const data = localStorage.getItem(getHistoryKey());
     return data ? JSON.parse(data) : {};
 }
 
 function saveHistory(id, isCorrect) {
     const history = getHistory();
     history[id] = isCorrect;
-    localStorage.setItem('fp2_practical_master_history', JSON.stringify(history));
+    localStorage.setItem(getHistoryKey(), JSON.stringify(history));
     updateMenuStatus();
 }
 
 function resetHistory() {
     if (confirm("学習履歴をリセットしますか？")) {
-        localStorage.removeItem('fp2_practical_master_history');
+        localStorage.removeItem(getHistoryKey());
         updateMenuStatus();
         alert("リセットしました。");
     }

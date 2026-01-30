@@ -11,15 +11,20 @@
 <body>
 
     <div class="container">
-        <h1>FP試験-ライフプランニング<br>3択完全攻略</h1>
+        <h1 id="page-title">FP試験<br>3択完全攻略</h1>
 
         <!-- スタート画面 -->
         <div id="start-screen">
+            <div style="text-align: left; margin-bottom: 10px;">
+                <a href="index.html"
+                    style="text-decoration: none; color: #7f8c8d; font-weight: bold; font-size: 1.1em;">&larr;
+                    メニューに戻る</a>
+            </div>
             <p style="text-align:center; font-weight:bold;">挑戦するコースを選択してください（各20問）</p>
             <div class="menu-grid">
                 <button class="menu-btn btn-random" onclick="startQuiz('random')">
                     🎲 ランダム演習
-                    <div style="font-size:0.8em; font-weight:normal;">全60問からランダムに出題</div>
+                    <div style="font-size:0.8em; font-weight:normal;">全問からランダムに出題</div>
                 </button>
                 <button class="menu-btn btn-new" onclick="startQuiz('new')">
                     🔰 未回答・新問コース
@@ -70,12 +75,60 @@
             <p>正解数</p>
             <div class="score-num" id="final-score-display">0 / 5</div>
             <button class="menu-btn btn-random" style="width:100%; margin-top:20px; text-align:center;"
-                onclick="location.reload()">メニューに戻る</button>
+                onclick="location.reload()">もう一度同じ科目を行う</button>
+            <button class="menu-btn" style="width:100%; margin-top:10px; text-align:center; background-color: #95a5a6;"
+                onclick="location.href='index.html'">メニューに戻る</button>
         </div>
     </div>
 
-    <script src="fp3_3taku_Life_quiz.js"></script>
-    <script src="fp3_3taku_Life_logic.js"></script>
+    <!-- Dynamic Loader -->
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const subject = params.get('subject');
+
+        let historyKey = 'fp3_3taku_history'; // Default
+        let scriptSrc = '';
+        let titleText = '3択完全攻略';
+
+        if (subject === 'life') {
+            titleText = 'ライフプランニング<br>3択完全攻略';
+            historyKey = 'fp3_life_history';
+            scriptSrc = 'fp3_3taku_Life_quiz.js';
+        } else if (subject === 'risk') {
+            titleText = 'リスク管理<br>3択完全攻略';
+            historyKey = 'fp3_risk_history';
+            scriptSrc = 'fp3_3taku_Risk_quiz.js';
+        } else {
+            document.body.innerHTML = '<div class="container"><h1>エラー</h1><p>科目が指定されていません。<a href="index.html">メニューに戻る</a></p></div>';
+            throw new Error("No subject specified");
+        }
+
+        document.title = "FP試験 " + titleText.replace('<br>', ' ');
+        document.getElementById('page-title').innerHTML = "FP試験-" + titleText;
+
+        // グローバル変数としてセット（logic.jsで参照する想定）
+        window.quizHistoryKey = historyKey;
+
+        // データスクリプトの読み込み
+        const script = document.createElement('script');
+        script.src = scriptSrc;
+        script.onload = () => {
+            // データ読み込み後にロジックスクリプトを読み込む
+            const logicScript = document.createElement('script');
+            logicScript.src = 'fp3_3taku_logic.js';
+            logicScript.onload = () => {
+                // ロジック読み込み完了時に初期更新を実行
+                if (typeof updateMenuStatus === 'function') {
+                    updateMenuStatus();
+                }
+            };
+            document.body.appendChild(logicScript);
+        };
+        script.onerror = () => {
+            alert("データの読み込みに失敗しました。");
+        };
+        document.body.appendChild(script);
+    </script>
 
 </body>
 
