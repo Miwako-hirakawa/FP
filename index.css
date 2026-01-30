@@ -1,0 +1,94 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    background: linear-gradient(135deg, #e0eaFC 0%, #cfdef3 100%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #333;
+}
+
+.container {
+    width: 100%;
+    max-width: 800px;
+    padding: 20px;
+}
+
+h1 {
+    text-align: center;
+    font-size: 2.5em;
+    margin-bottom: 50px;
+    color: #2c3e50;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    letter-spacing: 2px;
+}
+
+.menu-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+}
+
+.menu-card {
+    background: white;
+    border-radius: 15px;
+    padding: 40px 30px;
+    text-decoration: none;
+    color: #333;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.menu-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+}
+
+.card-icon {
+    font-size: 4em;
+    margin-bottom: 20px;
+}
+
+.card-title {
+    font-size: 1.5em;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #2c3e50;
+}
+
+.card-desc {
+    font-size: 1em;
+    color: #7f8c8d;
+}
+
+/* Marubatu Style */
+.card-marubatu {
+    border-top: 5px solid #3498db;
+}
+
+.card-marubatu .card-icon {
+    color: #3498db;
+}
+
+/* 3Taku Style */
+.card-3taku {
+    border-top: 5px solid #e67e22;
+}
+
+.card-3taku .card-icon {
+    color: #e67e22;
+}
+
+@media (max-width: 600px) {
+    h1 {
+        font-size: 2em;
+    }
+}
