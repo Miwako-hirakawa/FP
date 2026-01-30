@@ -221,3 +221,27 @@ h1 {
         opacity: 1;
     }
 }
+/* テーブルスタイル追加 */
+.cf-table, .coefficient-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    margin-bottom: 15px;
+    background-color: white;
+}
+
+.cf-table th, .cf-table td,
+.coefficient-table th, .coefficient-table td {
+    border: 1px solid #999;
+    padding: 6px 10px;
+    text-align: center;
+}
+
+.cf-table th, .coefficient-table th {
+    background-color: #e3e3e3;
+    font-weight: bold;
+}
+
+.cf-table td, .coefficient-table td {
+    color: #333;
+}
