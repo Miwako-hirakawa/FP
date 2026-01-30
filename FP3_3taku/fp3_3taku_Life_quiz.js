@@ -1528,16 +1528,13 @@ function startQuiz(mode) {
 
     } else if (mode === 'weak') {
         const weaks = questions.filter(q => history[q.id] === false);
+        // 不正解の問題のみを出題（最大20問）
         pool = shuffle(weaks).slice(0, 20);
 
-        if (weaks.length === 0) {
+        if (pool.length === 0) {
             // 弱点がない場合はランダム
             pool = shuffle(questions).slice(0, 20);
             alert("弱点（不正解）の問題はありません！ランダムに出題します。");
-        } else if (pool.length < 20) {
-            // 20問に満たない場合、他から補充
-            const others = questions.filter(q => !pool.includes(q));
-            pool = pool.concat(shuffle(others).slice(0, 20 - pool.length));
         }
         document.getElementById('mode-display').textContent = "💪 弱点克服";
     }
