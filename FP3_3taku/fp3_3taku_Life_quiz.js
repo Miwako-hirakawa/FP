@@ -422,10 +422,9 @@ const questions = [
     {
         id: "s2_29", cat: "係数計算",
         q: "3,000万円の住宅ローン（年利1%・35年）の毎月の返済額を計算したい。資本回収係数が「0.033」である場合、毎月の返済額は約いくらか。",
-        data: `<div style="font-size:0.9em;">計算式：(借入額 × 資本回収係数) ÷ 12</div>`,
         options: ["82,500円", "99,000円", "120,000円"],
         correct: 0,
-        exp: "3,000万円 × 0.033 ＝ 99万円（年額）。<br>月額は 99万円 ÷ 12 ＝ 82,500円 です。",
+        exp: "計算式：(借入額 × 資本回収係数) ÷ 12<br>3,000万円 × 0.033 ＝ 99万円（年額）。<br>月額は 99万円 ÷ 12 ＝ 82,500円 です。",
         ref: "独学で学ぶFP2級(2)"
     },
     {
@@ -754,10 +753,11 @@ const questions = [
     // --- 2. 老齢給付・計算 (8問) ---
     {
         id: "s4_06", cat: "老齢年金",
-        q: "老齢基礎年金を満額受給するために必要な保険料納付済期間は、原則として何年（何ヶ月）か。",
-        options: ["25年（300ヶ月）", "30年（360ヶ月）", "40年（480ヶ月）"],
-        correct: 2,
-        exp: "20歳から60歳までの「40年間（480ヶ月）」全期間納付すると、満額が支給されます。",
+        q: "次の＜資料＞に基づき、老齢基礎年金の年金額を計算した金額として、正しいものはどれか。",
+        data: `<div style="font-size:0.85em; background:#eee; padding:5px; border-radius:3px; margin:-10px; text-align:center;"><strong>＜資料＞</strong><br><ul style="display:inline-block; text-align:left; margin:0; padding:0; line-height:1.3;"><li style="margin-bottom:2px;">満額の年金額：816,000円（簡略化）</li><li style="margin-bottom:2px;">保険料納付済月数：420ヶ月</li><li style="margin-bottom:2px;">全額免除月数：60ヶ月（平成21年4月以降、反映割合4/8）</li><li>未納月数：0ヶ月</li></ul></div>`,
+        options: ["765,000円", "780,500円", "816,000円"],
+        correct: 0,
+        exp: "計算式：816,000円 × (420ヶ月 ＋ 60ヶ月×4/8) ÷ 480ヶ月<br>＝ 816,000円 × 450 ÷ 480 ＝ 765,000円",
         ref: "独学で学ぶFP2級(4)"
     },
     {
@@ -936,7 +936,8 @@ const questions = [
     },
     {
         id: "s4_28", cat: "年金計算",
-        q: "下記資料に基づき、Cさんが受け取ることができる「老齢基礎年金」の年金額に最も近いものはどれか。\n\n＜資料＞\n・満額の年金額：816,000円（簡略化）\n・保険料納付済月数：420ヶ月\n・全額免除月数：60ヶ月（平成21年4月以降、反映割合4/8）\n・未納月数：0ヶ月",
+        q: "下記資料に基づき、Cさんが受け取ることができる「老齢基礎年金」の年金額に最も近いものはどれか。",
+        data: `<div style="font-size:0.85em; background:#eee; padding:5px; border-radius:3px; margin:-10px; text-align:center;"><strong>＜資料＞</strong><br><ul style="display:inline-block; text-align:left; margin:0; padding:0; line-height:1.3;"><li style="margin-bottom:2px;">満額の年金額：816,000円（簡略化）</li><li style="margin-bottom:2px;">保険料納付済月数：420ヶ月</li><li style="margin-bottom:2px;">全額免除月数：60ヶ月（平成21年4月以降、反映割合4/8）</li><li>未納月数：0ヶ月</li></ul></div>`,
         options: ["714,000円", "765,000円", "816,000円"],
         correct: 1,
         exp: "816,000 × (420 ＋ 60×4/8) / 480\n＝ 816,000 × (420＋30) / 480\n＝ 816,000 × 450/480\n＝ 765,000円",
@@ -1457,10 +1458,9 @@ const questions = [
     {
         id: "s6_30", cat: "実技計算",
         q: "年収600万円のBさんがフラット35を申し込む場合、年間の返済負担率の上限基準は35％である。この場合、毎月の返済額の上限として、最も近い金額はどれか（ボーナス返済なしとする）。",
-        data: "＜計算式＞ (600万円 × 35％) ÷ 12ヶ月",
         options: ["145,000円", "175,000円", "210,000円"],
         correct: 1,
-        exp: "600万円 × 0.35 ＝ 210万円（年額）。\n210万円 ÷ 12 ＝ 175,000円（月額）。",
+        exp: "＜計算式＞ (600万円 × 35％) ÷ 12ヶ月600万円 × 0.35 ＝ 210万円（年額）。\n210万円 ÷ 12 ＝ 175,000円（月額）。",
         ref: "FP3級実技 問2類似, 独学で学ぶFP2級(6)"
     }
 ];
@@ -1554,7 +1554,7 @@ function showQuestion() {
     const qData = currentPool[currentIndex];
     document.getElementById('progress-text').textContent = `${currentIndex + 1} / ${currentPool.length} 問`;
     document.getElementById('q-source').textContent = qData.cat;
-    document.getElementById('q-text').textContent = qData.q;
+    document.getElementById('q-text').innerHTML = qData.q;
 
     const dataBox = document.getElementById('q-data');
     let content = "";
@@ -1637,6 +1637,16 @@ function shuffle(array) {
         [newArr[i], newArr[j]] = [newArr[j], newArr[i]];
     }
     return newArr;
+}
+
+
+function quitQuiz() {
+    if (confirm("クイズを中断してメニューに戻りますか？")) {
+        document.getElementById('quiz-interface').style.display = 'none';
+        document.getElementById('result-feedback').style.display = 'none';
+        document.getElementById('start-screen').style.display = 'block';
+        updateMenuStatus();
+    }
 }
 
 window.onload = updateMenuStatus;

@@ -91,19 +91,18 @@ h1 {
 }
 
 .btn-quit {
+    background: #e74c3c;
+    color: white;
+    border: none;
     padding: 5px 10px;
-    border: 1px solid #bdc3c7;
-    background-color: transparent;
-    color: #7f8c8d;
     border-radius: 4px;
     cursor: pointer;
-    font-size: 0.9em;
+    font-size: 0.8em;
+    margin-left: 10px;
 }
 
 .btn-quit:hover {
-    background-color: #ecf0f1;
-    color: #c0392b;
-    border-color: #c0392b;
+    background: #c0392b;
 }
 
 .question-box {
