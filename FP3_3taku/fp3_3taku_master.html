@@ -106,6 +106,10 @@
             titleText = 'タックスプランニング<br>三択完全攻略';
             historyKey = 'fp3_tax_history';
             scriptSrc = 'fp3_3taku_Tax_quiz.js';
+        } else if (subject === 'estate') {
+            titleText = '不動産<br>三択完全攻略';
+            historyKey = 'fp3_estate_history';
+            scriptSrc = 'fp3_3taku_Estate_quiz.js';
         } else {
             document.body.innerHTML = '<div class="container"><h1>エラー</h1><p>科目が指定されていません。<a href="index.html">メニューに戻る</a></p></div>';
             throw new Error("No subject specified");
