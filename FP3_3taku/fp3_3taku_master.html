@@ -110,6 +110,10 @@
             titleText = '不動産<br>三択完全攻略';
             historyKey = 'fp3_estate_history';
             scriptSrc = 'fp3_3taku_Estate_quiz.js';
+        } else if (subject === 'inheritance') {
+            titleText = '相続・事業承継<br>三択完全攻略';
+            historyKey = 'fp3_inheritance_history';
+            scriptSrc = 'fp3_3taku_Inheritance_quiz.js';
         } else {
             document.body.innerHTML = '<div class="container"><h1>エラー</h1><p>科目が指定されていません。<a href="index.html">メニューに戻る</a></p></div>';
             throw new Error("No subject specified");
