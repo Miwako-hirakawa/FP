@@ -87,6 +87,15 @@ h1 {
     color: #e67e22;
 }
 
+/* text Style */
+.card-text {
+    border-top: 5px solid #22e653;
+}
+
+.card-text .card-icon {
+    color: #22e653;
+}
+
 @media (max-width: 600px) {
     h1 {
         font-size: 2em;
