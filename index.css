@@ -123,6 +123,15 @@ h1 {
     color: #22e653;
 }
 
+/* report Style */
+.card-report {
+    border-top: 5px solid #9b59b6;
+}
+
+.card-report .card-icon {
+    color: #9b59b6;
+}
+
 @media (max-width: 600px) {
     h1 {
         font-size: 2em;
